@@ -1,0 +1,125 @@
+<template>
+  <div class="login-fofrm-wrapper">
+    <h1>bees-ts-admin</h1>
+
+    <el-form :model="form">
+      <el-form-item>
+        <el-input placeholder="请输入用户名" clearable v-model="form.username">
+          <template #prefix>
+            <BeeIcon class-name="icon" icon="el-User" color="#409eff"></BeeIcon>
+          </template>
+        </el-input>
+      </el-form-item>
+
+      <el-form-item>
+        <el-input v-model="form.password" :type="passwordStatus" placeholder="请输入登录密码">
+          <template #prefix>
+            <BeeIcon class-name="icon" :icon="passwordPrefixIocnName" color="#409eff"></BeeIcon>
+          </template>
+
+          <template #suffix>
+            <BeeIcon @click="toggleInputType" class-name="icon view" icon="el-View" color="#409eff"></BeeIcon>
+          </template>
+        </el-input>
+      </el-form-item>
+
+      <!-- <el-form-item>
+        <div class="code-wrapper">
+          <el-input v-model="form.password" :type="passwordStatus" placeholder="请输入验证码">
+            <template #prefix>
+              <BeeIcon class-name="icon" icon="el-Picture" color="#409eff"></BeeIcon>
+            </template>
+            <template #suffix>
+              <BeeIcon class-name="icon view" icon="el-RefreshRight" color="#409eff"></BeeIcon>
+            </template>
+          </el-input>
+          <img src="https://img1.baidu.com/it/u=3115200608,3390489788&fm=253&fmt=auto&app=138&f=JPEG?w=686&h=225" alt="" class="code-image" />
+        </div>
+      </el-form-item> -->
+
+      <div class="tip">
+        <div class="save-pd">
+          <el-checkbox v-model="isSavePd" label="记住密码" size="large" />
+        </div>
+      </div>
+
+      <el-button type="primary" block>登录</el-button>
+    </el-form>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import BeeIcon from '@/components/BeeIcon/index.vue'
+
+type PasswordStatus = 'password' | 'text'
+type PasswordPrefixIconName = 'el-Lock' | 'el-Unlock'
+interface IForm {
+  username: string
+  password: string
+}
+
+const isSavePd = ref<boolean>(true)
+const passwordStatus = ref<PasswordStatus>('password')
+const passwordPrefixIocnName = computed<PasswordPrefixIconName>(() => {
+  return passwordStatus.value === 'password' ? 'el-Lock' : 'el-Unlock'
+})
+
+const form = ref<IForm>({
+  username: '',
+  password: ''
+})
+
+const toggleInputType = () => {
+  passwordStatus.value = passwordStatus.value === 'password' ? 'text' : 'password'
+}
+</script>
+
+<style scoped lang="scss">
+.login-form-wrapper {
+  * {
+    user-select: none;
+  }
+
+  h1 {
+    color: rgba(1, 61, 139, 1);
+    font-size: 2vw;
+    margin: 0;
+    text-align: center;
+    margin-bottom: 2.7vw;
+  }
+
+  ::v-deep .icon {
+    position: relative;
+    top: 2px;
+    vertical-align: text-top;
+    margin-left: 5px;
+
+    &.view {
+      cursor: pointer;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+  }
+
+  .code-wrapper {
+    display: flex;
+    align-items: center;
+
+    .code-image {
+      width: 6.9vw;
+      flex-shrink: 0;
+      margin-left: 1vw;
+    }
+  }
+
+  .tip {
+    margin-bottom: 20px;
+  }
+
+  ::v-deep .el-button--primary {
+    width: 100%;
+    letter-spacing: 1em;
+  }
+}
+</style>
