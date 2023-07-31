@@ -23,14 +23,7 @@
       </div>
 
       <div class="bee-login-line-path">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="335.9681396484375"
-          height="57.5341796875"
-          viewBox="0 0 335.9681396484375 57.5341796875"
-          fill="none"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="335.9681396484375" height="57.5341796875" viewBox="0 0 335.9681396484375 57.5341796875" fill="none">
           <path
             id="路径 2"
             style="fill: #6cb4ff; opacity: 1"

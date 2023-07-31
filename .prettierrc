@@ -4,5 +4,8 @@
   "printWidth": 200,
   "singleQuote": true,
   "semi": false,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "jsxSingleQuote": true
 }
