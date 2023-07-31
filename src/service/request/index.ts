@@ -5,7 +5,7 @@ import type { BeeAxiosRequestConfig } from './types'
 export default class Request {
   instance: AxiosInstance
 
-  constructor (config: BeeAxiosRequestConfig) {
+  constructor(config: BeeAxiosRequestConfig) {
     this.instance = axios.create(config)
 
     // 全局拦截器
@@ -32,7 +32,7 @@ export default class Request {
     this.instance.interceptors.response.use(config.interceptors?.responseSuccess, config.interceptors?.responseFail)
   }
 
-  request<T = any> (config: BeeAxiosRequestConfig<T>) {
+  request<T = any>(config: BeeAxiosRequestConfig<T>) {
     if (config.interceptors?.requestSuccess) {
       config = config.interceptors.requestSuccess(config)
     }
@@ -50,19 +50,19 @@ export default class Request {
     })
   }
 
-  get<T = any> (config: BeeAxiosRequestConfig<T>) {
+  get<T = any>(config: BeeAxiosRequestConfig<T>) {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T = any> (config: BeeAxiosRequestConfig<T>) {
+  post<T = any>(config: BeeAxiosRequestConfig<T>) {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T = any> (config: BeeAxiosRequestConfig<T>) {
+  delete<T = any>(config: BeeAxiosRequestConfig<T>) {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  put<T = any> (config: BeeAxiosRequestConfig<T>) {
+  put<T = any>(config: BeeAxiosRequestConfig<T>) {
     return this.request<T>({ ...config, method: 'PUT' })
   }
 }

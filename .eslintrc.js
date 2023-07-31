@@ -13,6 +13,7 @@ module.exports = {
     'no-undef': 'off',
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/ban-types': 'off'
+    '@typescript-eslint/ban-types': 'off',
+    'space-before-function-paren': 'off'
   }
 }
