@@ -6,10 +6,12 @@ import installElementPlus, { initAllElementPlusIcons } from './plugins/element'
 
 import 'normalize.css'
 import './assets/css/index.scss'
+import './permission'
 
 const app = createApp(App)
 installElementPlus(app)
 initAllElementPlusIcons(app)
 app.use(pinia)
 app.use(router)
+
 app.mount('#app')
