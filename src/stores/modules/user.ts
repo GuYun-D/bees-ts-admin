@@ -4,6 +4,7 @@ import type { ILoginForm, IUserState } from '@/model/login'
 import { userLoginApi } from '../../service/api/login/index'
 import { TOKEN } from '@/contsant'
 import { setItem, getItem } from '@/utils/storage'
+import router from '@/router'
 
 export default defineStore('userStore', {
   state(): IUserState {
@@ -24,6 +25,7 @@ export default defineStore('userStore', {
           .then(({ token }) => {
             setItem(TOKEN, token)
             this.token = token
+            router.push('/')
             resolve(token)
           })
           .catch(reject)

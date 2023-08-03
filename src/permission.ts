@@ -9,7 +9,7 @@ const { token } = storeToRefs(userStore)
 const whiteList = ['/login']
 
 router.beforeEach((to, _, next) => {
-  if (token) {
+  if (token.value) {
     if (to.path === '/login') {
       next('/')
     } else {
