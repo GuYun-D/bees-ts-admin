@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@types/md5": "^2.3.2",
     "axios": "0.24.0",
     "core-js": "^3.8.3",
     "element-plus": "^1.0.2-beta.28",
+    "md5": "^2.3.0",
     "normalize.css": "^8.0.1",
+    "pinia": "^2.1.6",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },

@@ -2,9 +2,9 @@
   <div class="login-fofrm-wrapper">
     <h1>bees-ts-admin</h1>
 
-    <el-form :model="form">
+    <el-form ref="loginFormRef" :rules="loginRules" :model="form">
       <el-form-item>
-        <el-input placeholder="请输入用户名" clearable v-model="form.username">
+        <el-input @keydown.enter="handleConfirmLogin" placeholder="请输入用户名" clearable v-model="form.username">
           <template #prefix>
             <BeeIcon class-name="icon" icon="el-User" color="#409eff"></BeeIcon>
           </template>
@@ -12,7 +12,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-input v-model="form.password" :type="passwordStatus" placeholder="请输入登录密码">
+        <el-input @keydown.enter="handleConfirmLogin" v-model="form.password" :type="passwordStatus" placeholder="请输入登录密码">
           <template #prefix>
             <BeeIcon class-name="icon" :icon="passwordPrefixIocnName" color="#409eff"></BeeIcon>
           </template>
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <el-button type="primary" block>登录</el-button>
+      <el-button :loading="loginLoading" type="primary" block @click="handleConfirmLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -51,27 +51,39 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import BeeIcon from '@/components/BeeIcon/index.vue'
+import type { ElForm } from 'element-plus'
+import type { PasswordPrefixIconName, PasswordStatus, ILoginForm } from '@/model/login'
+import { loginRules } from './rules'
 
-type PasswordStatus = 'password' | 'text'
-type PasswordPrefixIconName = 'el-Lock' | 'el-Unlock'
-interface IForm {
-  username: string
-  password: string
-}
+const emits = defineEmits<{(e: 'login', ILoginForm: ILoginForm, loginSuccessCb?: () => void): void }>()
 
 const isSavePd = ref<boolean>(true)
+const loginLoading = ref<boolean>(false)
 const passwordStatus = ref<PasswordStatus>('password')
+const loginFormRef = ref<InstanceType<typeof ElForm>>()
 const passwordPrefixIocnName = computed<PasswordPrefixIconName>(() => {
   return passwordStatus.value === 'password' ? 'el-Lock' : 'el-Unlock'
 })
 
-const form = ref<IForm>({
-  username: '',
-  password: ''
+const form = ref<ILoginForm>({
+  username: 'super-admin',
+  password: '123456'
 })
 
 const toggleInputType = () => {
   passwordStatus.value = passwordStatus.value === 'password' ? 'text' : 'password'
+}
+
+const handleConfirmLogin = () => {
+  loginFormRef.value?.validate((valid) => {
+    console.log(valid)
+
+    if (!valid) return
+    loginLoading.value = true
+    emits('login', form.value, () => {
+      loginLoading.value = false
+    })
+  })
 }
 </script>
 
@@ -120,6 +132,11 @@ const toggleInputType = () => {
   ::v-deep .el-button--primary {
     width: 100%;
     letter-spacing: 1em;
+  }
+
+  ::v-deep .el-icon-loading {
+    letter-spacing: normal;
+    margin-right: 1em;
   }
 }
 </style>

@@ -1,22 +1,33 @@
 import Request from './request'
+import { AxiosResponse } from 'axios'
+import { HttpServerData } from '@/service/request/types'
+import { ElMessage } from 'element-plus'
 
 const request = new Request({
-  baseURL: 'http://localhost:3000',
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000,
   interceptors: {
     requestSuccess(config) {
       return config
     },
     requestFail(err) {
-      console.log('请求失败', err)
+      return Promise.reject(err)
     },
-    responseSuccess(res) {
-      // TDDO: 后端服务未启动时的错误
-      console.log('响应成功', res)
-      return res
+    responseSuccess(response: AxiosResponse<HttpServerData, any>) {
+      const { success, data, message } = response.data
+      if (success) {
+        return data
+      } else {
+        ElMessage.error(message)
+        return Promise.reject(new Error(message))
+      }
     },
-    responseFail(err) {
-      console.log('响应失败', err)
+    responseFail(error) {
+      if (error.response && error.response.data && error.response.data.code === 401) {
+        // TODO： 退出登录
+      }
+      ElMessage.error(error.message)
+      return Promise.reject(error)
     }
   }
 })

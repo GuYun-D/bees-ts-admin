@@ -8,9 +8,11 @@ export default class Request {
   constructor(config: BeeAxiosRequestConfig) {
     this.instance = axios.create(config)
 
-    // 全局拦截器
     this.instance.interceptors.request.use(
+      // 全局拦截器
       (config) => {
+        // @ts-ignore
+        config.headers.icode = '50DD1740F05F747A'
         return config
       },
       (err) => {
@@ -20,7 +22,7 @@ export default class Request {
 
     this.instance.interceptors.response.use(
       (response) => {
-        return response.data
+        return response
       },
       (err) => {
         return err
@@ -32,12 +34,12 @@ export default class Request {
     this.instance.interceptors.response.use(config.interceptors?.responseSuccess, config.interceptors?.responseFail)
   }
 
-  request<T = any>(config: BeeAxiosRequestConfig<T>) {
+  request<T = any>(config: BeeAxiosRequestConfig<T>): Promise<T> {
     if (config.interceptors?.requestSuccess) {
       config = config.interceptors.requestSuccess(config)
     }
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.instance
         .request<any, T>(config)
         .then((response) => {
