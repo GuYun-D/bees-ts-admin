@@ -16,7 +16,7 @@
             <a href="" target="__blank">
               <el-dropdown-item>Github</el-dropdown-item>
             </a>
-            <el-dropdown-item divided>登出登录</el-dropdown-item>
+            <el-dropdown-item @click="handleLogout" divided>登出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -25,10 +25,12 @@
 </template>
 
 <script setup lang="ts">
-// import { storeToRefs } from 'pinia'
-// import useUserStore from '@/stores/modules/user'
-// const userStore = useUserStore()
-// const { userInfo } = storeToRefs(userStore)
+import useUserStore from '@/stores/modules/user'
+const userStore = useUserStore()
+
+const handleLogout = () => {
+  userStore.logout()
+}
 </script>
 
 <style scoped lang="scss">

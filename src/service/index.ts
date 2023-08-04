@@ -5,6 +5,7 @@ import type { HttpServerData } from '@/service/request/types'
 import { ElMessage } from 'element-plus'
 import pinia from '../stores'
 import useUserStore from '../stores/modules/user'
+import { isCurrentTokenTimeout } from './../utils/auth'
 
 const request = new Request({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -12,8 +13,17 @@ const request = new Request({
   interceptors: {
     requestSuccess(config) {
       const userStore = useUserStore(pinia)
-      // @ts-ignore
-      config.headers.Authorization = `Bearer ${userStore.token}`
+      const { token } = storeToRefs(userStore)
+      if (token.value) {
+        if (isCurrentTokenTimeout()) {
+          userStore.logout()
+          ElMessage.error('token 失效，请重新登录')
+          return config
+        }
+        // @ts-ignore
+        config.headers.Authorization = `Bearer ${token.value}`
+      }
+
       return config
     },
     requestFail(err) {
@@ -30,7 +40,8 @@ const request = new Request({
     },
     responseFail(error) {
       if (error.response && error.response.data && error.response.data.code === 401) {
-        // TODO： 退出登录
+        const userStore = useUserStore(pinia)
+        userStore.logout()
       }
       ElMessage.error(error.message)
       return Promise.reject(error)
