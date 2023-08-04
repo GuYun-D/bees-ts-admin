@@ -1,13 +1,19 @@
+import { storeToRefs } from 'pinia'
+import type { AxiosResponse } from 'axios'
 import Request from './request'
-import { AxiosResponse } from 'axios'
-import { HttpServerData } from '@/service/request/types'
+import type { HttpServerData } from '@/service/request/types'
 import { ElMessage } from 'element-plus'
+import pinia from '../stores'
+import useUserStore from '../stores/modules/user'
 
 const request = new Request({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000,
   interceptors: {
     requestSuccess(config) {
+      const userStore = useUserStore(pinia)
+      // @ts-ignore
+      config.headers.Authorization = `Bearer ${userStore.token}`
       return config
     },
     requestFail(err) {

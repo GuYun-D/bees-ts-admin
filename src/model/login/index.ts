@@ -9,8 +9,18 @@ interface ILoginResult {
   token: string
 }
 
-interface IUserState {
-  token: string
+interface IUserInfo {
+  avatar?: string
+  id?: string
+  permission?: any
+  role?: any[]
+  title?: string
+  username?: string
 }
 
-export type { PasswordStatus, PasswordPrefixIconName, ILoginForm, ILoginResult, IUserState }
+interface IUserState {
+  token: string
+  userInfo: IUserInfo
+}
+
+export type { PasswordStatus, PasswordPrefixIconName, ILoginForm, ILoginResult, IUserState, IUserInfo }

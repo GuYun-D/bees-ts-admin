@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import HomeViewVue from '@/views/HomeView.vue'
+import Layout from '@/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeViewVue
+    component: Layout
   },
   {
     path: '/login',

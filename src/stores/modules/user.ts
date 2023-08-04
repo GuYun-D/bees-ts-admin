@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia'
 import md5 from 'md5'
 import type { ILoginForm, IUserState } from '@/model/login'
-import { userLoginApi } from '../../service/api/login/index'
+import { userLoginApi, getUserDetailInfoApi } from '../../service/api/login/index'
 import { TOKEN } from '@/contsant'
 import { setItem, getItem } from '@/utils/storage'
 import router from '@/router'
+import { isEmptyObj } from './../../utils/validate'
 
 export default defineStore('userStore', {
   state(): IUserState {
     return {
-      token: getItem(TOKEN)
+      token: getItem(TOKEN),
+      userInfo: {}
     }
   },
 
@@ -30,6 +32,18 @@ export default defineStore('userStore', {
           })
           .catch(reject)
       })
+    },
+
+    async fetchUserInfo() {
+      const res = await getUserDetailInfoApi()
+      this.userInfo = res
+      return res
+    }
+  },
+
+  getters: {
+    hasUserInfo(): boolean {
+      return !isEmptyObj(this.userInfo)
     }
   }
 })

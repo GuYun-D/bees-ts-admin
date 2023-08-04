@@ -1,0 +1,36 @@
+@import "./variables.scss";
+
+.bee-app-container {
+  width: 100%;
+  height: 100%;
+
+  .sidebar {
+    background-color: rgb(247, 247, 247);
+
+    transition: width $sidebarDuration;
+    width: $sideBarWidth !important;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+  }
+
+  .bee-main-area {
+    height: 100vh;
+    transition: margin-left $sidebarDuration;
+    margin-left: $sideBarWidth;
+    position: relative;
+
+    .bee-fixed-header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 9;
+      width: calc(100% - #{$sideBarWidth});
+      transition: width $sidebarDuration;
+    }
+  }
+}

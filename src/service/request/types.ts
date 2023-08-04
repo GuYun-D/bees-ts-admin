@@ -1,4 +1,4 @@
-import { AxiosResponse, AxiosRequestConfig } from 'axios'
+import type { AxiosResponse, AxiosRequestConfig } from 'axios'
 
 interface BeeInterceptors<T = AxiosResponse> {
   requestSuccess?: (config: AxiosRequestConfig) => AxiosRequestConfig
