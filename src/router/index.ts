@@ -1,18 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Layout from '@/layout/index.vue'
+import publicRoutes from './pubilcRoutes'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'home',
-    component: Layout
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue')
-  }
-]
+const routes: Array<RouteRecordRaw> = publicRoutes
 
 const router = createRouter({
   history: createWebHashHistory(),

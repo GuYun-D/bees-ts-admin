@@ -1,6 +1,6 @@
 <template>
   <div class="bee-app-container">
-    <div class="sidebar"></div>
+    <SideBar class="sidebar"></SideBar>
     <div class="bee-main-area">
       <div class="bee-fixed-header">
         <NavBar></NavBar>
@@ -16,6 +16,7 @@
 import NavBar from './components/NavBar.vue'
 import TagView from '../components/TagView/index.vue'
 import AppMain from './components/AppMain.vue'
+import SideBar from './components/Sidebar/index.vue'
 </script>
 
 <style scoped lang="scss"></style>
