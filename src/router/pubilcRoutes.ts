@@ -13,23 +13,23 @@ const publicRoutes: RouteRecordRaw[] = [
     children: [
       {
         // 个人中心
-        path: 'profile',
+        path: '/profile',
         name: 'profile',
         component: () => import('@/views/profile/index.vue'),
         meta: {
           title: 'profile',
-          icon: 'el-icon-user'
+          icon: 'el-icon-first-aid-kit'
         }
       },
       {
         // 404
-        path: '404',
+        path: '/404',
         name: '404',
         component: () => import('@/views/error-page/404.vue')
       },
       {
         // 401
-        path: '401',
+        path: '/401',
         name: '401',
         component: () => import('@/views/error-page/401.vue')
       }

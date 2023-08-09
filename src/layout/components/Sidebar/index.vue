@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import SidebarMenu from './components/SidebarMenus.vue'
+import SidebarMenu from './components/SideBarMenu'
 </script>
 
 <style scoped lang="scss">

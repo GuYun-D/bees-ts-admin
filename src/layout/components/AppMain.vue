@@ -1,24 +1,6 @@
 <template>
   <div class="bee-app-main-view">
-    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam
-    praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti
-    eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil
-    quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt
-    aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet
-    consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor
-    corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi
-    laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea
-    deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem
-    voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-    Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit
-    amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos
-    dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo
-    animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea
-    deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem
-    voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-    Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos dolor corporis? Lorem ipsum, dolor sit
-    amet consectetur adipisicing elit. Veniam deserunt aliquid cupiditate autem voluptates nihil quaerat reiciendis quos ea deleniti eligendi porro, explicabo animi laboriosam praesentium. Quo eos
-    dolor corporis?
+    <router-view></router-view>
   </div>
 </template>
 

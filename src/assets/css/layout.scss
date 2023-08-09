@@ -14,6 +14,12 @@
     left: 0;
     z-index: 1001;
     overflow: hidden;
+
+    .bee-menu-icon {
+      margin-right: 12px;
+      margin-left: -2px;
+      color: #fff;
+    }
   }
 
   .bee-main-area {
