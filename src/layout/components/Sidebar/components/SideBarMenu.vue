@@ -1,5 +1,12 @@
 <template>
-  <el-menu router :unique-opened="true" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+  <el-menu
+    router
+    :default-active="defaultActiveIndex"
+    :unique-opened="true"
+    :background-color="theme.variables.menuBg"
+    :text-color="theme.variables.menuText"
+    :active-text-color="theme.variables.menuActiveText"
+  >
     <SideBarItem v-for="item in routes" :key="item.path" :route="item"></SideBarItem>
   </el-menu>
 </template>
@@ -9,12 +16,16 @@ import { generatemenus, filterRoutes } from '@/utils/route'
 import { computed } from 'vue'
 import SideBarItem from './SideBarItem.vue'
 
-import { useRouter } from 'vue-router'
+import useTheme from '@/stores/modules/theme'
+const theme = useTheme()
+
+import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const routes = computed(() => {
   const res = filterRoutes(router.getRoutes())
   return generatemenus(res)
 })
-</script>
 
-<style scoped lang="scss"></style>
+const route = useRoute()
+const defaultActiveIndex = computed(() => route.path)
+</script>

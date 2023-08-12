@@ -18,7 +18,8 @@ import SidebarMenu from './components/SideBarMenu'
 <style scoped lang="scss">
 .side-bar-container {
   height: 100%;
-  background-color: #fd792f;
+  /* background-color: #fd792f; */
+  background-color: #304156;
   .logo-container {
     height: 44px;
     padding: 10px 0 22px 0;
