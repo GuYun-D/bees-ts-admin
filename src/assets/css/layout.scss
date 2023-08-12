@@ -15,6 +15,10 @@
     z-index: 1001;
     overflow: hidden;
 
+    .el-menu{
+      border-right: none !important;
+    }
+
     .bee-menu-icon {
       margin-right: 12px;
       margin-left: -2px;

@@ -55,7 +55,7 @@ import type { ElForm } from 'element-plus'
 import type { PasswordPrefixIconName, PasswordStatus, ILoginForm } from '@/model/login'
 import { loginRules } from './rules'
 
-const emits = defineEmits<{(e: 'login', ILoginForm: ILoginForm, loginSuccessCb?: () => void): void }>()
+const emits = defineEmits<{ (e: 'login', ILoginForm: ILoginForm, loginSuccessCb?: () => void): void }>()
 
 const isSavePd = ref<boolean>(true)
 const loginLoading = ref<boolean>(false)
