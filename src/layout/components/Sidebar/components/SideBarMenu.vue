@@ -17,9 +17,9 @@ import { computed } from 'vue'
 import SideBarItem from './SideBarItem.vue'
 
 import useTheme from '@/stores/modules/theme'
-const theme = useTheme()
 
 import { useRoute, useRouter } from 'vue-router'
+const theme = useTheme()
 const router = useRouter()
 const routes = computed(() => {
   const res = filterRoutes(router.getRoutes())
