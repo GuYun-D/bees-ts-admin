@@ -8,7 +8,6 @@
   <el-icon v-if="elIconName" @click="$emit('click')" :class="className" :size="size" :color="color">
     <component :is="elIconName"></component>
   </el-icon>
-
   <!-- 其他图标 -->
   <div v-if="otherIconStyle" @click="$emit('click')" :style="otherIconStyle" class="bee-icon bee-external-icon" :class="className"></div>
 </template>
@@ -41,7 +40,8 @@ watch(
   (iconName) => {
     if (iconName) {
       if (iconName.includes('el-')) {
-        elIconName.value = iconName.replace('el-', '')
+        const name = iconName.replace('el-icon-', '')
+        elIconName.value = name[0].toUpperCase() + name.slice(1)
       } else if (iconName.includes('s-')) {
         svgIconName.value = `#icon-${iconName.replace('s-', '')}`
       } else {
@@ -51,6 +51,8 @@ watch(
         }
       }
     }
+
+    console.log('走了', elIconName.value)
   },
   {
     immediate: true

@@ -1,5 +1,6 @@
 <template>
   <el-menu
+    :collapse="sidebarOpened"
     router
     :default-active="defaultActiveIndex"
     :unique-opened="true"
@@ -11,15 +12,18 @@
   </el-menu>
 </template>
 <script setup lang="ts">
-import { generatemenus, filterRoutes } from '@/utils/route'
-
 import { computed } from 'vue'
-import SideBarItem from './SideBarItem.vue'
-
-import useTheme from '@/stores/modules/theme'
-
 import { useRoute, useRouter } from 'vue-router'
+import { generatemenus, filterRoutes } from '@/utils/route'
+import SideBarItem from './SideBarItem.vue'
+import useTheme from '@/stores/modules/theme'
+import useApp from '@/stores/modules/app'
+import { storeToRefs } from 'pinia'
+
 const theme = useTheme()
+const app = useApp()
+const { sidebarOpened } = storeToRefs(app)
+
 const router = useRouter()
 const routes = computed(() => {
   const res = filterRoutes(router.getRoutes())

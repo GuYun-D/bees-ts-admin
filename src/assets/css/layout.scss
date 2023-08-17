@@ -6,7 +6,7 @@
 
   .sidebar {
     transition: width $sidebarDuration;
-    width: $sideBarWidth !important;
+    width: $sideBarWidth;
     height: 100%;
     position: fixed;
     top: 0;
@@ -15,7 +15,7 @@
     z-index: 1001;
     overflow: hidden;
 
-    .el-menu{
+    .el-menu {
       border-right: none !important;
     }
 
@@ -40,5 +40,61 @@
       width: calc(100% - #{$sideBarWidth});
       transition: width $sidebarDuration;
     }
+  }
+}
+
+.hideSidebar {
+  .sidebar {
+    width: 54px !important;
+  }
+
+  .bee-main-area {
+    margin-left: 54px;
+  }
+
+  .submenu-title-noDropdown {
+    padding: 0 !important;
+    position: relative;
+
+    .el-tooltip {
+      padding: 0 !important;
+
+      .svg-icon {
+        margin-left: 20px;
+      }
+
+      .sub-el-icon {
+        margin-left: 19px;
+      }
+    }
+  }
+
+  .el-menu-item {
+    > span {
+      display: none;
+    }
+  }
+
+  .el-submenu {
+    & > .el-submenu__title {
+      & > span {
+        height: 0;
+        width: 0;
+        overflow: hidden;
+        visibility: hidden;
+        display: inline-block;
+      }
+    }
+
+    .el-menu {
+      .bee-menu-icon {
+        display: none;
+      }
+    }
+  }
+}
+.el-menu--vertical {
+  .bee-menu-icon {
+    margin-right: 12px;
   }
 }

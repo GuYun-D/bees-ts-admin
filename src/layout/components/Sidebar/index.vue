@@ -2,7 +2,7 @@
   <div class="side-bar-container">
     <div class="logo-container">
       <el-avatar size="44" shape="square" :src="require('../../../assets/image/logo.png')"></el-avatar>
-      <h1 class="logo-title">团蜂科技</h1>
+      <h1 class="logo-title" v-if="!app.sidebarOpened">团蜂科技</h1>
     </div>
 
     <el-scrollbar>
@@ -13,6 +13,9 @@
 
 <script setup lang="ts">
 import SidebarMenu from './components/SideBarMenu'
+
+import useApp from '@/stores/modules/app'
+const app = useApp()
 </script>
 
 <style scoped lang="scss">
@@ -38,7 +41,7 @@ import SidebarMenu from './components/SideBarMenu'
 
     .el-avatar {
       --el-avatar-background-color: none;
-      margin-right: 12px;
+      /* margin-right: 12px; */
     }
   }
 }
