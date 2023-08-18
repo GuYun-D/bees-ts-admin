@@ -5,6 +5,7 @@ import type { HttpServerData } from '@/service/request/types'
 import { ElMessage } from 'element-plus'
 import pinia from '../stores'
 import useUserStore from '../stores/modules/user'
+import useApp from '@/stores/modules/app'
 import { isCurrentTokenTimeout } from './../utils/auth'
 
 const request = new Request({
@@ -13,6 +14,7 @@ const request = new Request({
   interceptors: {
     requestSuccess(config) {
       const userStore = useUserStore(pinia)
+      const appStore = useApp(pinia)
       const { token } = storeToRefs(userStore)
       if (token.value) {
         if (isCurrentTokenTimeout()) {
@@ -22,6 +24,8 @@ const request = new Request({
         }
         // @ts-ignore
         config.headers.Authorization = `Bearer ${token.value}`
+        // @ts-ignore
+        config.headers['Accept-Language'] = appStore.language
       }
 
       return config
