@@ -63,7 +63,7 @@ const loginLoading = ref<boolean>(false)
 const passwordStatus = ref<PasswordStatus>('password')
 const loginFormRef = ref<InstanceType<typeof ElForm>>()
 const passwordPrefixIocnName = computed<PasswordPrefixIconName>(() => {
-  return passwordStatus.value === 'password' ? 'el-icon-Lock' : 'el-icon-unlock'
+  return passwordStatus.value === 'password' ? 'el-icon-lock' : 'el-icon-unlock'
 })
 
 const form = ref<ILoginForm>({
