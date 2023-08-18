@@ -6,7 +6,7 @@
       <el-form-item prop="username">
         <el-input @keydown.enter="handleConfirmLogin" :placeholder="$t('login.usernamePlaceholder')" clearable v-model="form.username">
           <template #prefix>
-            <BeeIcon class-name="icon" icon="el-User" color="#409eff"></BeeIcon>
+            <BeeIcon class-name="icon" icon="el-icon-user" color="#409eff"></BeeIcon>
           </template>
         </el-input>
       </el-form-item>
@@ -63,7 +63,7 @@ const loginLoading = ref<boolean>(false)
 const passwordStatus = ref<PasswordStatus>('password')
 const loginFormRef = ref<InstanceType<typeof ElForm>>()
 const passwordPrefixIocnName = computed<PasswordPrefixIconName>(() => {
-  return passwordStatus.value === 'password' ? 'el-Lock' : 'el-Unlock'
+  return passwordStatus.value === 'password' ? 'el-icon-Lock' : 'el-icon-unlock'
 })
 
 const form = ref<ILoginForm>({

@@ -1,5 +1,5 @@
 type PasswordStatus = 'password' | 'text'
-type PasswordPrefixIconName = 'el-Lock' | 'el-Unlock'
+type PasswordPrefixIconName = 'el-icon-Lock' | 'el-icon-Unlock'
 interface ILoginForm {
   username: string
   password: string
