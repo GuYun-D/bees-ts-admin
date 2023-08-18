@@ -4,11 +4,12 @@
   <!-- other icon -->
   <BeeIcon v-else class-name="bee-menu-icon" :icon="icon"></BeeIcon>
 
-  <span>{{ title }}</span>
+  <span>{{ generateTitle(title) }}</span>
 </template>
 
 <script setup lang="ts">
 import BeeIcon from '@/components/BeeIcon/index.vue'
+import { generateTitle } from '@/utils/i18n'
 defineProps<{
   icon: string
   title: string

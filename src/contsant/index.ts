@@ -10,3 +10,4 @@ export const TOKEN_TIME_OUT = 2 * 3600 * 1000
  */
 export const MAIN_COLOR = 'mainColor'
 export const DEFAULT_COLOR = '#409eff'
+export const LANGUAGE = 'language'

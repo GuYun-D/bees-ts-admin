@@ -6,6 +6,10 @@
 
     <!-- 右侧栏目 -->
     <div class="right-menu">
+      <!-- 切换语言 -->
+      <LangSelect class="right-menu-item"></LangSelect>
+
+      <!-- 头像和操作菜单 -->
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <el-avatar shape="square" :src="'http://t15.baidu.com/it/u=3485859598,14054287&fm=224&app=112&f=JPEG?w=500&h=500'"></el-avatar>
@@ -15,12 +19,12 @@
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
             <router-link to="/">
-              <el-dropdown-item>主页</el-dropdown-item>
+              <el-dropdown-item>{{ $t('sys.home') }}</el-dropdown-item>
             </router-link>
             <a href="" target="__blank">
               <el-dropdown-item>Github</el-dropdown-item>
             </a>
-            <el-dropdown-item @click="handleLogout" divided>登出登录</el-dropdown-item>
+            <el-dropdown-item @click="handleLogout" divided>{{ $t('sys.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -31,6 +35,7 @@
 <script setup lang="ts">
 import Hamburger from '@/components/Hamburger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
+import LangSelect from '@/components/LangSelect/index.vue'
 import useUserStore from '@/stores/modules/user'
 const userStore = useUserStore()
 
@@ -67,6 +72,18 @@ const handleLogout = () => {
     display: flex;
     align-items: center;
     padding-right: 16px;
+
+    ::v-deep .right-menu-item {
+      display: inline-block;
+      padding: 0 18px 0 0;
+      font-size: 24px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+      }
+    }
 
     ::v-deep .avatar-container {
       cursor: pointer;

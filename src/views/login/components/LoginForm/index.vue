@@ -1,18 +1,18 @@
 <template>
   <div class="login-fofrm-wrapper">
-    <h1>bees-ts-admin</h1>
+    <h1>bees-ts-admin <LangSelect class="login-lang-select"></LangSelect></h1>
 
     <el-form ref="loginFormRef" :rules="loginRules" :model="form">
-      <el-form-item>
-        <el-input @keydown.enter="handleConfirmLogin" placeholder="请输入用户名" clearable v-model="form.username">
+      <el-form-item prop="username">
+        <el-input @keydown.enter="handleConfirmLogin" :placeholder="$t('login.usernamePlaceholder')" clearable v-model="form.username">
           <template #prefix>
             <BeeIcon class-name="icon" icon="el-User" color="#409eff"></BeeIcon>
           </template>
         </el-input>
       </el-form-item>
 
-      <el-form-item>
-        <el-input @keydown.enter="handleConfirmLogin" v-model="form.password" :type="passwordStatus" placeholder="请输入登录密码">
+      <el-form-item prop="password">
+        <el-input @keydown.enter="handleConfirmLogin" v-model="form.password" :type="passwordStatus" :placeholder="$t('login.passwordPlaceholder')">
           <template #prefix>
             <BeeIcon class-name="icon" :icon="passwordPrefixIocnName" color="#409eff"></BeeIcon>
           </template>
@@ -39,11 +39,11 @@
 
       <div class="tip">
         <div class="save-pd">
-          <el-checkbox v-model="isSavePd" label="记住密码" size="large" />
+          <el-checkbox v-model="isSavePd" :label="$t('login.savePassword')" size="large" />
         </div>
       </div>
 
-      <el-button :loading="loginLoading" type="primary" block @click="handleConfirmLogin">登录</el-button>
+      <el-button :loading="loginLoading" type="primary" block @click="handleConfirmLogin">{{ $t('login.loginBtn') }}</el-button>
     </el-form>
   </div>
 </template>
@@ -53,6 +53,7 @@ import { computed, ref } from 'vue'
 import BeeIcon from '@/components/BeeIcon/index.vue'
 import type { ElForm } from 'element-plus'
 import type { PasswordPrefixIconName, PasswordStatus, ILoginForm } from '@/model/login'
+import LangSelect from '@/components/LangSelect/index.vue'
 import { loginRules } from './rules'
 
 const emits = defineEmits<{(e: 'login', ILoginForm: ILoginForm, loginSuccessCb?: () => void): void }>()
@@ -76,8 +77,6 @@ const toggleInputType = () => {
 
 const handleConfirmLogin = () => {
   loginFormRef.value?.validate((valid) => {
-    console.log(valid)
-
     if (!valid) return
     loginLoading.value = true
     emits('login', form.value, () => {
@@ -91,6 +90,10 @@ const handleConfirmLogin = () => {
 .login-form-wrapper {
   * {
     user-select: none;
+  }
+
+  .login-lang-select {
+    font-size: 28px;
   }
 
   h1 {
@@ -131,7 +134,7 @@ const handleConfirmLogin = () => {
 
   ::v-deep .el-button--primary {
     width: 100%;
-    letter-spacing: 1em;
+    /* letter-spacing: 1em; */
   }
 
   ::v-deep .el-icon-loading {

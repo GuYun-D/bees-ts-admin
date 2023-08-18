@@ -1,7 +1,9 @@
+import i18n from '@/i18n'
+
 export const validatePassword = () => {
   return (rule: any, value: string, callback: (errMs?: Error | string) => void) => {
     if (value.length < 6) {
-      callback(new Error('登录密码至少为6位'))
+      callback(new Error(i18n.global.t('login.passwordRule')))
     } else {
       callback()
     }
@@ -13,7 +15,7 @@ export const loginRules = {
     {
       required: true,
       trigger: 'blur',
-      message: '请填写登录账号'
+      message: i18n.global.t('login.usernameRule')
     }
   ],
 

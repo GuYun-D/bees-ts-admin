@@ -2,7 +2,7 @@
   <div class="side-bar-container">
     <div class="logo-container">
       <el-avatar size="44" shape="square" :src="require('../../../assets/image/logo.png')"></el-avatar>
-      <h1 class="logo-title" v-if="!app.sidebarOpened">团蜂科技</h1>
+      <h1 class="logo-title" v-if="!app.sidebarOpened">{{ $t('sys.title') }}</h1>
     </div>
 
     <el-scrollbar>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import SidebarMenu from './components/SideBarMenu'
+import SidebarMenu from './components/SideBarMenu.vue'
 
 import useApp from '@/stores/modules/app'
 const app = useApp()

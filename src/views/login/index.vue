@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ILoginForm } from '@/model/login'
 import useUserStore from '@/stores/modules/user'
 import { ElMessage } from 'element-plus'
@@ -15,12 +16,13 @@ import Pane from './components/Pane/index.vue'
 import PersonPane from './components/PersonPane/index.vue'
 
 const userStore = useUserStore()
+const i18n = useI18n()
 
 const hanldeUserLogin = (loginForm: ILoginForm, successCb?: () => void) => {
   userStore
     .fetchUserLogin(loginForm)
     .then(() => {
-      ElMessage.success('登录成功')
+      ElMessage.success(i18n.t('messageTip.loginSuccess'))
       successCb && typeof successCb === 'function' && successCb()
     })
     .catch(() => {

@@ -51,8 +51,6 @@ watch(
         }
       }
     }
-
-    console.log('走了', elIconName.value)
   },
   {
     immediate: true

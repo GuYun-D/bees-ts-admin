@@ -6,7 +6,7 @@ export default [
     component: Layout,
     redirect: '/user/manage',
     meta: {
-      title: '用户',
+      title: 'user',
       icon: 'el-icon-user'
     },
     children: [
@@ -15,7 +15,7 @@ export default [
         name: 'user-manage',
         component: () => import('../views/user-mange/index.vue'),
         meta: {
-          title: '用户管理',
+          title: 'userManage',
           icon: 'el-icon-cpu'
         }
       },
@@ -24,7 +24,7 @@ export default [
         name: 'role-list',
         component: () => import('../views/role-list/index.vue'),
         meta: {
-          title: '角色管理',
+          title: 'roleManage',
           icon: 'el-icon-house'
         }
       },
@@ -33,7 +33,7 @@ export default [
         name: 'permission-list',
         component: () => import('../views/permission-list/index.vue'),
         meta: {
-          title: '权限列表',
+          title: 'permissionList',
           icon: 'el-icon-warning'
         }
       },
@@ -50,7 +50,7 @@ export default [
         name: 'import',
         component: () => import('../views/import/index.vue'),
         meta: {
-          title: 'excel导入'
+          title: 'importExcel'
         }
       }
     ]

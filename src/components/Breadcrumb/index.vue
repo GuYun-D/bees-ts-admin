@@ -1,11 +1,11 @@
 <template>
-  <el-breadcrumb class="breadcrumb"  separator-class="el-icon-arrow-right">
+  <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(route, index) in breadcrumbData" :key="index">
         <!-- 不可点击 -->
-        <span class="no-redirect" v-if="(!route.children || !route.children.length) && route.meta">{{ route.meta.title }}</span>
+        <span class="no-redirect" v-if="(!route.children || !route.children.length) && route.meta">{{ generateTitle(route.meta.title as string) }}</span>
         <!-- 可点击 -->
-        <span class="redirect" @click="handleClickBreadcrumb(route)" v-else-if="route.meta && route.children && route.children.length">{{ route.meta.title }}</span>
+        <span class="redirect" @click="handleClickBreadcrumb(route)" v-else-if="route.meta && route.children && route.children.length">{{ generateTitle(route.meta.title as string) }}</span>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -16,6 +16,7 @@ import { watch, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import useTheme from '@/stores/modules/theme'
+import { generateTitle } from '@/utils/i18n'
 
 const router = useRouter()
 const route = useRoute()
