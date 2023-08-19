@@ -52,7 +52,7 @@ const handleLogout = () => {
   userStore.logout()
 }
 
-const hoverColor = ref<string>(themeStore.variables.menuBg)
+const hoverColor = ref<string>(themeStore.mainColor)
 </script>
 
 <style scoped lang="scss">

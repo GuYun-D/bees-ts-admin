@@ -1,8 +1,8 @@
 <template>
   <!-- element-plus icon -->
-  <i v-if="icon.includes('el-icon')" class="bee-menu-icon" :class="icon"></i>
+  <!-- <i v-if="icon.includes('el-icon')" class="bee-menu-icon" :class="icon"></i> -->
   <!-- other icon -->
-  <BeeIcon v-else class-name="bee-menu-icon" :icon="icon"></BeeIcon>
+  <BeeIcon class-name="bee-menu-icon" :icon="icon"></BeeIcon>
 
   <span>{{ generateTitle(title) }}</span>
 </template>

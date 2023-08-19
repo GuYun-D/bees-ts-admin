@@ -1,6 +1,6 @@
 <template>
   <el-dropdown @command="handleSetLanguage" trigger="click">
-    <div>
+    <div style="cursor: pointer">
       <BeeIcon icon="s-lang-select"></BeeIcon>
     </div>
     <template #dropdown>

@@ -15,18 +15,15 @@ export default defineStore('themeStore', {
       mainColor: getItem(MAIN_COLOR) || DEFAULT_COLOR
     }
   },
-
   actions: {
     toggleMainColor(mainColor: string) {
       if (!mainColor) {
         ElMessage.warning(i18n.global.t('sys.nullTheme'))
         return
       }
-
       setItem(MAIN_COLOR, mainColor)
       this.mainColor = mainColor
       this.variables.menuBg = mainColor
-
       generatePrimaryColor(mainColor)
     }
   }

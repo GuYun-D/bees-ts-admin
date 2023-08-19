@@ -39,9 +39,8 @@ const app = useApp()
       white-space: nowrap;
     }
 
-    .el-avatar {
-      --el-avatar-background-color: none;
-      /* margin-right: 12px; */
+    ::v-deep .el-avatar {
+      background-color: transparent !important;
     }
   }
 }

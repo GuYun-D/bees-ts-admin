@@ -102,6 +102,13 @@ const handleConfirmLogin = () => {
     margin: 0;
     text-align: center;
     margin-bottom: 2.7vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ::v-deep .bee-icon {
+      font-size: 0.7813vw;
+    }
   }
 
   ::v-deep .icon {
