@@ -8,4 +8,4 @@ $--color-primary: #9bcbfd;
 /* icon font path, required */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
 
-@import '~element-plus/packages/theme-chalk/src/index';
+@import '~element-plus/dist/index.css';

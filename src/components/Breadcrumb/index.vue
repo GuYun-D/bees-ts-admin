@@ -23,7 +23,7 @@ const route = useRoute()
 const theme = useTheme()
 
 const breadcrumbData = ref<RouteRecordRaw[]>()
-const linkHoverColor = ref(theme.variables.menuBg)
+const linkHoverColor = ref(theme.mainColor)
 
 const generateBreadcrumd = () => {
   breadcrumbData.value = route.matched.filter((item) => item.meta && item.meta.title)

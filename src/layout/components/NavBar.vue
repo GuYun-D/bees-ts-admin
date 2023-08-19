@@ -7,7 +7,10 @@
     <!-- 右侧栏目 -->
     <div class="right-menu">
       <!-- 切换语言 -->
-      <LangSelect class="right-menu-item"></LangSelect>
+      <LangSelect class="right-menu-item hover"></LangSelect>
+
+      <!-- 皮肤切换 -->
+      <ThemeSelect class="right-menu-item hover"></ThemeSelect>
 
       <!-- 头像和操作菜单 -->
       <el-dropdown class="avatar-container" trigger="click">
@@ -33,15 +36,23 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import Hamburger from '@/components/Hamburger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
+import ThemeSelect from '@/components/ThemeSelect/index.vue'
+
 import useUserStore from '@/stores/modules/user'
+import useTheme from '@/stores/modules/theme'
+
 const userStore = useUserStore()
+const themeStore = useTheme()
 
 const handleLogout = () => {
   userStore.logout()
 }
+
+const hoverColor = ref<string>(themeStore.variables.menuBg)
 </script>
 
 <style scoped lang="scss">
@@ -80,8 +91,9 @@ const handleLogout = () => {
       color: #5a5e66;
       vertical-align: text-bottom;
 
-      &.hover-effect {
+      &.hover {
         cursor: pointer;
+        color: v-bind(hoverColor);
       }
     }
 

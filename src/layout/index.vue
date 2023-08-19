@@ -1,6 +1,6 @@
 <template>
   <div class="bee-app-container" :class="app.sidebarOpened ? 'hideSidebar' : 'openSidebar'">
-    <SideBar class="sidebar"></SideBar>
+    <SideBar class="sidebar" :style="{ backgroundColor: themeStore.mainColor }"></SideBar>
     <div class="bee-main-area">
       <div class="bee-fixed-header">
         <NavBar></NavBar>
@@ -18,8 +18,10 @@ import TagView from '../components/TagView/index.vue'
 import AppMain from './components/AppMain.vue'
 import SideBar from './components/Sidebar/index.vue'
 import useApp from '@/stores/modules/app'
+import useTheme from '@/stores/modules/theme'
 
 const app = useApp()
+const themeStore = useTheme()
 </script>
 
 <style scoped lang="scss">

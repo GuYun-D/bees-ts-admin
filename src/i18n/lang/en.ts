@@ -2,7 +2,9 @@ export default {
   sys: {
     title: 'Bee Group',
     logout: 'Logout',
-    home: 'Home'
+    home: 'Home',
+    theme: 'Switch Theme',
+    nullTheme: 'Please select a theme color'
   },
   route: {
     profile: 'User Info',
@@ -24,5 +26,10 @@ export default {
   messageTip: {
     loginSuccess: 'Login successful',
     switchLanguage: 'Language switch successful'
+  },
+  dialog: {
+    title: 'prompt',
+    confirm: 'confirm',
+    cancel: 'cancel'
   }
 }

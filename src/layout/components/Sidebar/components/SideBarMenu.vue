@@ -4,7 +4,7 @@
     router
     :default-active="defaultActiveIndex"
     :unique-opened="true"
-    :background-color="theme.variables.menuBg"
+    :background-color="theme.mainColor"
     :text-color="theme.variables.menuText"
     :active-text-color="theme.variables.menuActiveText"
   >

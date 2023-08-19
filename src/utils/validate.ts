@@ -21,3 +21,13 @@ export const isNull = (value: any) => {
   if (JSON.stringify(value) === '{}') return true
   if (JSON.stringify(value) === '[]') return true
 }
+
+/**
+ *
+ * @param key 判断一个key是否是一个obj上的key
+ * @param object
+ * @returns
+ */
+export const isValidKey = (key: string | number | symbol, object: object): key is keyof typeof object => {
+  return key in object
+}
