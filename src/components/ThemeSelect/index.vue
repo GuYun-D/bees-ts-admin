@@ -38,7 +38,8 @@ const predefineColors = [
   'hsva(120, 40, 94, 0.5)',
   'hsl(181, 100%, 37%)',
   'hsla(209, 100%, 56%, 0.73)',
-  '#c7158577'
+  '#c7158577',
+  'rgb(13, 0, 255)'
 ]
 
 const themeStore = useTheme()
