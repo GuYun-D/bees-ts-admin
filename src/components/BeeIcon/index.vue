@@ -1,15 +1,15 @@
 <template>
   <!-- svg 图标 -->
-  <svg v-if="svgIconName" @click="$emit('click')" :class="className" class="bee-icon" aria-hidden="true">
+  <svg v-if="svgIconName" v-bind="$attrs" :class="className" class="bee-icon" aria-hidden="true">
     <use :xlink:href="svgIconName" />
   </svg>
 
   <!-- element-plus 图标 -->
-  <el-icon v-if="elIconName" @click="$emit('click')" :class="className" :size="size" :color="color">
+  <el-icon v-if="elIconName" v-bind="$attrs" :class="className" :size="size" :color="color">
     <component :is="elIconName"></component>
   </el-icon>
   <!-- 其他图标 -->
-  <div v-if="otherIconStyle" @click="$emit('click')" :style="otherIconStyle" class="bee-icon bee-external-icon" :class="className"></div>
+  <div v-if="otherIconStyle" v-bind="$attrs" :style="otherIconStyle" class="bee-icon bee-external-icon" :class="className"></div>
 </template>
 
 <script setup lang="ts">

@@ -6,6 +6,9 @@
 
     <!-- 右侧栏目 -->
     <div class="right-menu">
+      <!-- 搜索 -->
+      <AdminSearch class="right-menu-item hover"></AdminSearch>
+
       <!-- 切换语言 -->
       <LangSelect class="right-menu-item hover"></LangSelect>
 
@@ -41,6 +44,7 @@ import Hamburger from '@/components/Hamburger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ThemeSelect from '@/components/ThemeSelect/index.vue'
+import AdminSearch from '@/components/AdminSearch/index.vue'
 
 import useUserStore from '@/stores/modules/user'
 import useTheme from '@/stores/modules/theme'
@@ -109,6 +113,10 @@ const hoverColor = ref<string>(themeStore.mainColor)
           margin-right: 12px;
         }
       }
+    }
+
+    ::v-deep .search-icon {
+      padding: 0;
     }
   }
 }

@@ -4,7 +4,8 @@ export default {
     logout: 'Logout',
     home: 'Home',
     theme: 'Switch Theme',
-    nullTheme: 'Please select a theme color'
+    nullTheme: 'Please select a theme color',
+    searchPlaceholder: 'Please enter keywords'
   },
   route: {
     profile: 'User Info',

@@ -4,7 +4,8 @@ export default {
     logout: '登出',
     home: '首页',
     theme: '切换主题',
-    nullTheme: '请选择主题色'
+    nullTheme: '请选择主题色',
+    searchPlaceholder: '请输入关键字'
   },
   route: {
     profile: '用户信息',
