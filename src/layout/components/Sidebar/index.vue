@@ -1,7 +1,7 @@
 <template>
   <div class="side-bar-container">
     <div class="logo-container">
-      <el-avatar size="44" shape="square" :src="require('../../../assets/image/logo.png')"></el-avatar>
+      <el-avatar size="small" shape="square" :src="require('../../../assets/image/logo.png')"></el-avatar>
       <h1 class="logo-title" v-if="!app.sidebarOpened">{{ $t('sys.title') }}</h1>
     </div>
 
