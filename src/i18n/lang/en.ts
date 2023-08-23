@@ -5,7 +5,8 @@ export default {
     home: 'Home',
     theme: 'Switch Theme',
     nullTheme: 'Please select a theme color',
-    searchPlaceholder: 'Please enter keywords'
+    searchPlaceholder: 'Please enter keywords',
+    unAllowScreen: 'Your browser does not support full screen. Please replace the browser'
   },
   route: {
     profile: 'User Info',

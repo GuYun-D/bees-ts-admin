@@ -64,7 +64,8 @@ watch(
   height: 1em;
   vertical-align: -0.15em;
   overflow: hidden;
-  fill: currentColor;
+  /* fill: currentColor; */
+  fill: #3d3d3d;
 }
 
 .bee-external-icon {

@@ -15,6 +15,9 @@
       <!-- 皮肤切换 -->
       <ThemeSelect class="right-menu-item hover"></ThemeSelect>
 
+      <!-- 全屏 -->
+      <ElementScreenFull :is-screen-full="isScreenFull" @click="handleScreen" class="right-menu-item hover"></ElementScreenFull>
+
       <!-- 头像和操作菜单 -->
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -45,18 +48,29 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ThemeSelect from '@/components/ThemeSelect/index.vue'
 import AdminSearch from '@/components/AdminSearch/index.vue'
+import ElementScreenFull from '@/components/ElementScreenFull/index.vue'
 
 import useUserStore from '@/stores/modules/user'
 import useTheme from '@/stores/modules/theme'
+import useFullScreen from '@/hooks/useFullScreen'
 
 const userStore = useUserStore()
 const themeStore = useTheme()
+const { isAllowScreenFull, isScreenFull, screenfull } = useFullScreen()
 
 const handleLogout = () => {
   userStore.logout()
 }
 
 const hoverColor = ref<string>(themeStore.mainColor)
+
+const handleScreen = () => {
+  if (!isAllowScreenFull) {
+    return
+  }
+
+  screenfull.toggle()
+}
 </script>
 
 <style scoped lang="scss">

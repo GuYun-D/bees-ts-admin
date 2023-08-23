@@ -5,7 +5,8 @@ export default {
     home: '首页',
     theme: '切换主题',
     nullTheme: '请选择主题色',
-    searchPlaceholder: '请输入关键字'
+    searchPlaceholder: '请输入关键字',
+    unAllowScreen: '您的浏览器不支持全屏，请更换浏览器'
   },
   route: {
     profile: '用户信息',
