@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown @command="handleSetLanguage" trigger="click">
+  <el-dropdown @command="handleSetLanguage" id="guide-lang" trigger="click">
     <div style="cursor: pointer">
       <BeeIcon icon="s-lang-select"></BeeIcon>
     </div>

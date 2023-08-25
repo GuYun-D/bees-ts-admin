@@ -1,5 +1,5 @@
 <template>
-  <div class="bee-admin-search-container" :class="{ show: searchSelectVisible }">
+  <div class="bee-admin-search-container" id="guide-search" :class="{ show: searchSelectVisible }">
     <BeeIcon v-bind="$attrs" className="search-icon" icon="s-search" @click.stop="handleToggleSeachVisible"></BeeIcon>
 
     <el-select

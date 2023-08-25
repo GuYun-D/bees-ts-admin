@@ -1,5 +1,5 @@
 <template>
-  <div class="element-screen-full-container">
+  <div class="element-screen-full-container" id="guide-full">
     <slot>
       <BeeIcon :icon="screenFullIcon"></BeeIcon>
     </slot>

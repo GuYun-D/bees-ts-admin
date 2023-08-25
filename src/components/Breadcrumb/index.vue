@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
+  <el-breadcrumb id="guide-breadcrumb" class="breadcrumb" separator-class="el-icon-arrow-right">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(route, index) in breadcrumbData" :key="index">
         <!-- 不可点击 -->

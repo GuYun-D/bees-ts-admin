@@ -1,10 +1,10 @@
 <template>
   <div class="bee-app-container" :class="app.sidebarOpened ? 'hideSidebar' : 'openSidebar'">
-    <SideBar class="sidebar" :style="{ backgroundColor: themeStore.mainColor }"></SideBar>
+    <SideBar id="guide-sidebar" class="sidebar" :style="{ backgroundColor: themeStore.mainColor }"></SideBar>
     <div class="bee-main-area">
       <div class="bee-fixed-header">
         <NavBar></NavBar>
-        <TagView></TagView>
+        <TagView id="guide-tags"></TagView>
       </div>
 
       <AppMain></AppMain>

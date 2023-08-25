@@ -12,6 +12,9 @@
       <!-- 切换语言 -->
       <LangSelect class="right-menu-item hover"></LangSelect>
 
+      <!-- 功能引导 -->
+      <Guide class="right-menu-item hover"></Guide>
+
       <!-- 皮肤切换 -->
       <ThemeSelect class="right-menu-item hover"></ThemeSelect>
 
@@ -48,6 +51,7 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ThemeSelect from '@/components/ThemeSelect/index.vue'
 import AdminSearch from '@/components/AdminSearch/index.vue'
+import Guide from '@/components/Guide/index.vue'
 import ElementScreenFull from '@/components/ElementScreenFull/index.vue'
 
 import useUserStore from '@/stores/modules/user'

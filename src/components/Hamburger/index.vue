@@ -1,5 +1,5 @@
 <template>
-  <div class="hamburger-wrapper" @click="app.toggleSidebarOpened">
+  <div class="hamburger-wrapper" id="guide-hamburger" @click="app.toggleSidebarOpened">
     <BeeIcon className="hamburger" :icon="hamburgerIcoNamae"></BeeIcon>
   </div>
 </template>

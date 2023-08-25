@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleChooseThemeColor" v-bind="$attrs">
+  <div @click="handleChooseThemeColor" v-bind="$attrs" id="guide-theme">
     <BeeIcon icon="s-theme-select"></BeeIcon>
   </div>
 
