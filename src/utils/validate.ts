@@ -1,3 +1,5 @@
+export const tagsWhiteList = ['/login', '/404', '401']
+
 /**
  * 判断当前对象是否是一个空数组或者空对象
  * @param value
@@ -30,4 +32,13 @@ export const isNull = (value: any) => {
  */
 export const isValidKey = (key: string | number | symbol, object: object): key is keyof typeof object => {
   return key in object
+}
+
+/**
+ * 判断当前路由是否需要保存
+ * @param path
+ * @returns
+ */
+export const isSaveTag = (path: string): boolean => {
+  return !tagsWhiteList.includes(path)
 }

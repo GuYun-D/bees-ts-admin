@@ -20,6 +20,7 @@
     "element-plus": "2.3.3",
     "fuse.js": "6.4.6",
     "md5": "^2.3.0",
+    "mitt": "^3.0.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.6",
     "rgb-hex": "^4.0.1",

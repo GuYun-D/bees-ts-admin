@@ -1,5 +1,7 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router'
 import { isNull } from './validate'
+import { generateTitle } from './i18n'
+import type { ITag } from '@/model/sys'
 const path = require('path')
 
 /**
@@ -63,4 +65,20 @@ export const generatemenus = (routes: RouteRecordRaw[], basePath = '') => {
   })
 
   return result
+}
+
+/**
+ * 生成 tagview title
+ */
+export const generateTitleByRoute = (route: RouteLocationNormalizedLoaded | ITag) => {
+  let title = ''
+  const { meta, path } = route
+  if (!meta) {
+    const pathAtt = path.split('/')
+    title = pathAtt[pathAtt.length - 1]
+  } else if (meta.title) {
+    title = generateTitle(meta.title as string)
+  }
+
+  return title
 }
