@@ -46,5 +46,3 @@ const handleDriver = () => {
   driverInstance.drive(0)
 }
 </script>
-
-<style lang="scss" scoped></style>

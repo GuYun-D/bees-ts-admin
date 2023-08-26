@@ -1,7 +1,9 @@
 <template>
   <ul class="content-menu-container" v-bind="$attrs">
     <slot>
-      <li v-for="item in menuList" :key="item.value" @click="handleClickMenuItem(item)">{{ item.label }}</li>
+      <li v-for="item in menuList" :key="item.value" @click="handleClickMenuItem(item)">
+        {{ item.label }}
+      </li>
     </slot>
   </ul>
 </template>

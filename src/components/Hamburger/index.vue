@@ -12,7 +12,7 @@ import BeeIcon from '../BeeIcon/index.vue'
 const app = useApp()
 
 const hamburgerIcoNamae = computed(() => {
-  return 'el-icon-fold'
+  return app.sidebarOpened ? 's-open' : 's-un-open'
 })
 </script>
 
