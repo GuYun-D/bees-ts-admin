@@ -1,5 +1,5 @@
 import { ILoginForm, ILoginResult, IUserInfo } from '@/model/login'
-import request from '@/service'
+import { request, test } from '@/service'
 
 // 用户登录
 export const userLoginApi = (data: ILoginForm) => {
@@ -13,5 +13,15 @@ export const userLoginApi = (data: ILoginForm) => {
 export const getUserDetailInfoApi = () => {
   return request.get<IUserInfo>({
     url: '/sys/profile'
+  })
+}
+
+/**
+ * 测试crud组件
+ */
+export const testCrudComponentsApi = (data: any) => {
+  return test.get<any>({
+    url: '/table',
+    params: data
   })
 }

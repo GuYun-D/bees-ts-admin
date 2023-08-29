@@ -15,6 +15,10 @@ module.exports = defineConfig({
       '/api': {
         target: 'https://api.imooc-admin.lgdsunday.club/',
         changeOrigin: true
+      },
+      '/test': {
+        target: 'http://192.168.0.129:3000',
+        changeOrigin: true
       }
     }
   },

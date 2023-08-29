@@ -1,10 +1,16 @@
 <template>
   <div>
-    个人中心Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi officia tempora, numquam, in suscipit saepe facilis fugit maxime nulla rerum, quo vel qui! Porro ratione voluptatibus maiores
-    ex quis excepturi.
+    <BCrud :table-config="tableColums"></BCrud>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import { BCrud, ICrudTableProps } from '@/components/Crud'
+import { getTableConfig } from './config'
+
+const tableColums = ref<ICrudTableProps>(getTableConfig())
+</script>
 
 <style scoped lang="scss"></style>
