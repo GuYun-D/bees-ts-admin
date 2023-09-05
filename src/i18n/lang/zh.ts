@@ -1,4 +1,8 @@
 export default {
+  request: {
+    403: '你暂无权限访问',
+    500: '服务器错误'
+  },
   sys: {
     title: '团蜂科技',
     logout: '登出',

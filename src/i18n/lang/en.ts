@@ -1,4 +1,8 @@
 export default {
+  request: {
+    403: 'You currently do not have permission to access',
+    500: 'Server error'
+  },
   sys: {
     title: 'Bee Group',
     logout: 'Logout',

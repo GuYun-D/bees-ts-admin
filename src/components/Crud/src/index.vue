@@ -1,13 +1,14 @@
 <template>
   <div class="bee-crud-container">
-    <BTable :handles="tableHanldes" :table-config="tableColumns!" :table-data="tableData" :events="tableEvents"></BTable>
+    <BTable :table-data="tableData"></BTable>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, provide } from 'vue'
+import { TABLE_CONFIG_KEY } from './contants'
 import BTable from './components/BTable/index.vue'
-import type { ICrudTableProps, ICrudTabldeFieldMap, IPageQuery, ICrudTableColumn, ICrudTableHandle, ITableEvents } from './types'
+import type { ICrudTableProps, ICrudTabldeFieldMap, IPageQuery } from './types'
 import { FieldMap, PageQuery } from './utils'
 import { defaultFieldMap, defaultQueryData, defaultQuerySetting } from './config'
 
@@ -22,9 +23,6 @@ const props = withDefaults(
 )
 
 const tableData = ref<any>()
-const tableColumns = ref<ICrudTableColumn[]>()
-const tableHanldes = ref<ICrudTableHandle>()
-const tableEvents = ref<ITableEvents>()
 // const currentPage = ref<number | string>(pq.getQueryConfig().page)
 
 /**
@@ -33,8 +31,6 @@ const tableEvents = ref<ITableEvents>()
 const formatData = (data: any) => {
   const finalFields = fm.getField()
   tableData.value = data[finalFields.data!]
-
-  console.log('来了老弟', tableData)
 }
 
 /**
@@ -63,14 +59,12 @@ const initFieldMap = (fieldConfig: ICrudTabldeFieldMap) => {
 }
 
 const initColumns = (tableConfig: ICrudTableProps) => {
-  const { fieldsMap, columns, requestApi, handle, events } = tableConfig
+  const { fieldsMap, requestApi } = tableConfig
   if (fieldsMap) {
     initFieldMap(fieldsMap)
   }
   fetchTableData(requestApi)
-  tableColumns.value = columns
-  tableHanldes.value = handle
-  tableEvents.value = events
+  provide(TABLE_CONFIG_KEY, tableConfig)
 }
 
 watch(() => props.tableConfig, initColumns, {

@@ -1,0 +1,4 @@
+不能将类型“
+{ label: string; prop: string; excelExportVisible: boolean | undefined; columVisible: boolean | undefined; type: "index" | "selection" | undefined; }[][]”
+分配给类型“IColumnSettingItem[]”。
+  类型“{ label: string; prop: string; excelExportVisible: boolean | undefined; columVisible: boolean | undefined; type: "index" | "selection" | undefined; }[]”缺少类型“IColumnSettingItem”中的以下属性: label, prop

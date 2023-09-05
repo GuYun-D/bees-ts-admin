@@ -7,6 +7,9 @@ export const getTableConfig = (): ICrudTableProps => {
       return testCrudComponentsApi(query)
     },
 
+    showSetting: true,
+    name: 'test-column-setting',
+
     handle: {
       options: {
         width: 100,

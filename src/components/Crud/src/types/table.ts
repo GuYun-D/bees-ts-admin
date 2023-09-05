@@ -2,6 +2,7 @@ import type { ButtonProps, TableColumnCtx } from 'element-plus'
 import type { IPageQuery } from './request'
 
 type HandleFixPosition = 'left' | 'right'
+type HandleMulitChoose = (rowList?: any[]) => void
 
 interface ICrudTabldeFieldMap {
   /* table 数据列表 */
@@ -44,7 +45,7 @@ interface ICrudTableColumn {
   /* 自定义索引, 当type = index时有效 */
   setIndex?: (index: number) => void
   /* 选择列后触发的回调 */
-  selectionChage?: (rowList: any[]) => void
+  selectionChage?: HandleMulitChoose
   /* table 列显示的数据prop */
   prop: string
   /* 表头 */
@@ -60,11 +61,24 @@ interface ICrudTableColumn {
   defaultValue?: number | string | boolean | null | undefined | symbol | bigint | ((rowData: any) => void)
 }
 
+/* 列设置类型 */
+interface IColumnSettingColumn extends ICrudTableColumn {
+  /* 是否选中,是否在列表中显示 */
+  columVisible?: boolean
+  /* 是否导出该字段 */
+  excelExportVisible?: boolean
+}
+
+type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop'>
+
 interface ICrudTableHandle {
   options: {
     width?: number
     fix?: HandleFixPosition
   }
+
+  /* 列名字 */
+  label?: string
 
   items: ICrudHandleItems[]
 }
@@ -109,4 +123,4 @@ interface ICrudTableProps<T = any> {
   events?: ITableEvents
 }
 
-export type { ICrudTableProps, ICrudTabldeFieldMap, ICrudTableColumn, ICrudTableHandle, ITableEvents }
+export type { ICrudTableProps, ICrudTabldeFieldMap, ICrudTableColumn, ICrudTableHandle, ITableEvents, IColumnSettingColumn, HandleMulitChoose, IColumnSettingItem }

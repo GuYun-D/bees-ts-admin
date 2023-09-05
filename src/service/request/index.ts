@@ -1,6 +1,8 @@
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 import type { AxiosInstance } from 'axios'
 import type { BeeAxiosRequestConfig } from './types'
+import i18n from './../../i18n/index'
 
 export default class Request {
   instance: AxiosInstance
@@ -12,7 +14,7 @@ export default class Request {
       // 全局拦截器
       (config) => {
         // @ts-ignore
-        config.headers.icode = '50DD1740F05F747A'
+        config.headers.icode = 'A8B36A94068A333C'
         return config
       },
       (err) => {
@@ -24,7 +26,22 @@ export default class Request {
       (response) => {
         return response
       },
+
+      // TODO: 为什么全局请求成功的拦截没有触发？为什么局部的error请求在存在全局的err处理后会失效？
+
       (err) => {
+        const { response } = err
+        const { data, status } = response
+
+        switch (status) {
+          case 403:
+            ElMessage.error(data.message || i18n.global.t('request.403'))
+            break
+
+          case 500:
+            ElMessage.error(data.message || i18n.global.t('request.500'))
+            break
+        }
         return err
       }
     )
