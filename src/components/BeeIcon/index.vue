@@ -1,7 +1,7 @@
 <template>
   <!-- svg 图标 -->
   <svg v-if="svgIconName" v-bind="$attrs" :class="className" class="bee-icon" aria-hidden="true">
-    <use :xlink:href="svgIconName" />
+    <use :fill="color" :xlink:href="svgIconName" />
   </svg>
 
   <!-- element-plus 图标 -->

@@ -4,7 +4,15 @@
     <el-table @currentChange="tableEvents?.currentChange" :data="tableData" :highlight-current-row="isUseSelectColumnItem" style="width: 100%" @selection-change="handleMuiltChooseChange">
       <template v-for="column in tableColumns" :key="column.prop">
         <!-- 多选 -->
-        <el-table-column v-if="column.type && column.type === 'selection' && column.columVisible" type="selection" :width="column?.width" v-bind="column?.options" :label="column.label">
+
+        <el-table-column
+          :fixed="column.fixed"
+          v-if="column.type && column.type === 'selection' && column.columVisible"
+          type="selection"
+          :width="column?.width"
+          v-bind="column?.options"
+          :label="column.label"
+        >
         </el-table-column>
 
         <!-- 索引 -->
@@ -15,6 +23,7 @@
           type="index"
           :index="column.setIndex"
           :width="column.width"
+          :fixed="column.fixed"
         ></el-table-column>
 
         <!-- 普通列 -->
@@ -25,6 +34,7 @@
           :label="column.label"
           :width="column.width"
           :type="column.type"
+          :fixed="column.fixed"
         >
           <template #default="scope" v-if="column.prop !== 'handle'">
             {{ scope.row[column.prop] || (typeof column.defaultValue === 'function' ? column.defaultValue(scope.row) : column.defaultValue) }}
@@ -32,7 +42,7 @@
         </el-table-column>
 
         <!-- 操作 -->
-        <el-table-column v-bind="tableHandleColumn?.options" v-if="column.prop === 'action' && column.columVisible" label="操作">
+        <el-table-column :fixed="column.fixed" v-bind="tableHandleColumn?.options" v-if="column.prop === 'action' && column.columVisible" label="操作">
           <template #default="scope">
             <el-button @click="button.click(scope.row)" v-bind="button.options" v-for="button in tableHandleColumn?.items" :key="button.name">{{ button.name }}</el-button>
           </template>
@@ -46,7 +56,17 @@
 import { ref, inject, onMounted } from 'vue'
 import bus from '../../utils/bus'
 import { TABLE_CONFIG_KEY, COLUMN_SETTINGS_PREFIX } from '../../contants'
-import type { ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem, IChangeSetting, LocalStorageColumSettings } from '../../types'
+import type {
+  IColumnFixedInfo,
+  ITableEvents,
+  ICrudTableColumn,
+  IColumnSettingColumn,
+  ICrudTableHandle,
+  HandleMulitChoose,
+  IColumnSettingItem,
+  IChangeSetting,
+  LocalStorageColumSettings
+} from '../../types'
 import TableSettings from '../TableSettings/index.vue'
 
 withDefaults(
@@ -68,13 +88,14 @@ let handleMuiltChooseChange: HandleMulitChoose
  * @param tableColumns
  */
 const generateColumnSettings = (tableColumns: IColumnSettingColumn[]) => {
-  tableSettings.value = tableColumns.map((colum) => {
+  tableSettings.value = tableColumns.map((column) => {
     return {
-      label: colum.label,
-      prop: colum.prop,
-      excelExportVisible: colum.excelExportVisible,
-      columVisible: colum.columVisible,
-      type: colum.type
+      label: column.label,
+      prop: column.prop,
+      excelExportVisible: column.excelExportVisible,
+      columVisible: column.columVisible,
+      type: column.type,
+      fixed: column.fixed
     }
   })
 }
@@ -85,21 +106,23 @@ const generateColumnSettings = (tableColumns: IColumnSettingColumn[]) => {
  * @param handles
  */
 const changeColumnSetting = (newColumnSettings: IChangeSetting) => {
-  const { columnVisibleList } = newColumnSettings
+  const { columnVisibleList, columnFixedInfo } = newColumnSettings
   tableSettings.value = tableSettings.value?.map((item) => {
     item.columVisible = columnVisibleList.includes(item.label)
+    item.fixed = columnFixedInfo[item.prop]
     return item
   })
 
   tableColumns.value.map((item) => {
     item.columVisible = columnVisibleList.includes(item.label)
+    item.fixed = columnFixedInfo[item.prop]
     return item
   })
 
   localStorage.setItem(COLUMN_SETTINGS_PREFIX + tableConfig?.name?.toUpperCase(), JSON.stringify(tableSettings.value))
 }
 
-const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[]) => {
+const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo) => {
   // TODO: 刷新之后action为隐藏
   const handles = tableConfig?.handle
   tableColumns.value = tableColumnsConfig.map((column) => {
@@ -110,7 +133,9 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
     }
 
     const columVisible = showColumnLabels ? showColumnLabels.includes(column.label) : true
-    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible: true, columVisible }
+    const fixed = (column.fixed = columnFixedInfo ? columnFixedInfo[column.prop] : false)
+
+    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible: true, columVisible, fixed }
     return newColumn
   })
 
@@ -120,9 +145,12 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
       label: handles?.label ?? '操作',
       prop: 'action',
       excelExportVisible: true,
-      columVisible: true
+      columVisible: true,
+      fixed: columnFixedInfo ? columnFixedInfo.action : 'right'
     })
   }
+
+  console.log('你没得', tableColumns.value)
 
   generateColumnSettings(tableColumns.value)
 }
@@ -140,10 +168,25 @@ if (tableConfig) {
 
   if (localSettingConfig) {
     localSettingConfig = JSON.parse(localSettingConfig)
+    const columnFixedInfo: IColumnFixedInfo = {}
+    const showColumnLabels: string[] = []
     if (Array.isArray(localSettingConfig)) {
       // debugger
-      const showColumnLabels = localSettingConfig.filter((item) => item.columVisible).map((item) => item.label)
-      initTable(columns, showColumnLabels)
+      // const showColumnLabels = localSettingConfig.filter((item) => item.columVisible).map((item) => item.label)
+
+      localSettingConfig.forEach((item) => {
+        if (item.columVisible) {
+          showColumnLabels.push(item.label)
+        }
+
+        if (item.fixed && item.prop && typeof item.prop === 'string') {
+          columnFixedInfo[item.prop] = item.fixed
+        }
+      })
+
+      console.log('我丢了', columnFixedInfo)
+
+      initTable(columns, showColumnLabels, columnFixedInfo)
     }
   } else {
     initTable(columns)

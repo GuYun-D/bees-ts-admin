@@ -3,6 +3,7 @@ import type { IPageQuery } from './request'
 
 type HandleFixPosition = 'left' | 'right'
 type HandleMulitChoose = (rowList?: any[]) => void
+type ColumnFixed = Boolean | 'right' | 'left'
 
 interface ICrudTabldeFieldMap {
   /* table 数据列表 */
@@ -59,6 +60,8 @@ interface ICrudTableColumn {
   /* 值不存在时显示的值 */
   // TODO: 列数据的类型？
   defaultValue?: number | string | boolean | null | undefined | symbol | bigint | ((rowData: any) => void)
+  /* 是否固定列 */
+  fixed?: ColumnFixed
 }
 
 /* 列设置类型 */
@@ -69,7 +72,7 @@ interface IColumnSettingColumn extends ICrudTableColumn {
   excelExportVisible?: boolean
 }
 
-type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop'>
+type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed'>
 
 interface ICrudTableHandle {
   options: {
