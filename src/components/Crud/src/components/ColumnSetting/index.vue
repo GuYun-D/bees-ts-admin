@@ -89,7 +89,8 @@ const handleConfirmColumSetting = () => {
  * @param direction
  */
 const handleFixed = (prop: string, direction: 'right' | 'left') => {
-  if (columnFixedInfo.value[prop]) {
+  const currentFixedPosition = columnFixedInfo.value[prop]
+  if (currentFixedPosition === direction) {
     columnFixedInfo.value[prop] = false
   } else {
     columnFixedInfo.value[prop] = direction
