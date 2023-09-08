@@ -1669,6 +1669,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/sortablejs@^1.15.2":
+  version "1.15.2"
+  resolved "https://registry.npmmirror.com/@types/sortablejs/-/sortablejs-1.15.2.tgz#d51e5ecac00a9782aa256c1401309ce1c4031ba2"
+  integrity sha512-mOIv/EnPMzAZAVbuh9uGjOZ1BBdimP9Y6IPGntsvQJtko5yapSDKB7GwB3AOlF5N3bkpk4sBwQRpS3aEkiUbaA==
+
 "@types/web-bluetooth@^0.0.16":
   version "0.0.16"
   resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz#1d12873a8e49567371f2a75fe3e7f7edca6662d8"
@@ -8575,6 +8580,11 @@ sockjs@^0.3.24:
     faye-websocket "^0.11.3"
     uuid "^8.3.2"
     websocket-driver "^0.7.4"
+
+sortablejs@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.npmmirror.com/sortablejs/-/sortablejs-1.15.0.tgz#53230b8aa3502bb77a29e2005808ffdb4a5f7e2a"
+  integrity sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
 
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.2:
   version "1.0.2"

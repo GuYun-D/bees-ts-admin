@@ -8,36 +8,32 @@
           </el-checkbox-group>
         </el-descriptions-item>
         <el-descriptions-item label="表头排序">
-          <ul v-for="column in settings" :key="column.label" style="width: 150px">
-            <li>
-              <BeeIcon icon="s-move"></BeeIcon>
-              <span>{{ column.label }}</span>
-
-              <BeeIcon class="move" :color="columnFixedInfo[column.prop] === 'left' ? '#409eff' : ''" @click="handleFixed(column.prop, 'left')" icon="s-left-move"></BeeIcon>
-              <BeeIcon
-                class="move"
-                :color="columnFixedInfo[column.prop] && columnFixedInfo[column.prop] === 'right' ? '#409eff' : ''"
-                @click="handleFixed(column.prop, 'right')"
-                icon="s-right-move"
-              ></BeeIcon>
-            </li>
+          <ul style="width: 150px" ref="sortableRef">
+            <template v-for="(column, index) in settings" :key="column.label">
+              <li v-if="index === column.currentIndex">
+                <BeeIcon icon="s-move"></BeeIcon>
+                <span>{{ column.label }}{{ column.currentIndex }}</span>
+                <BeeIcon class="move" :color="columnFixedInfo[column.prop].fixed === 'left' ? '#409eff' : ''" @click="handleFixed(column.prop, 'left')" icon="s-left-move"></BeeIcon>
+                <BeeIcon
+                  class="move"
+                  :color="columnFixedInfo[column.prop] && columnFixedInfo[column.prop].fixed === 'right' ? '#409eff' : ''"
+                  @click="handleFixed(column.prop, 'right')"
+                  icon="s-right-move"
+                ></BeeIcon>
+              </li>
+            </template>
           </ul>
         </el-descriptions-item>
-        <!-- <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province </el-descriptions-item> -->
       </el-descriptions>
-    </div>
-
-    <div class="footer">
-      <el-button type="info">取消</el-button>
-      <el-button type="primary" @click="handleConfirmColumSetting">确定</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
+import Sortable from 'sortablejs'
 import bus from '../../utils/bus'
-import { IChangeSetting, IColumnFixedInfo, IColumnSettingItem } from '../../types'
+import { IColumnFixedInfo, IColumnSettingItem } from '../../types'
 import BeeIcon from '@/components/BeeIcon/index.vue'
 
 const props = withDefaults(
@@ -49,21 +45,22 @@ const props = withDefaults(
   }
 )
 
-// const emits = defineEmits<{
-//   (e: emitterEvents.CHANGE_COLUMN_VISIBLE, configInfo: IChangeSetting): void
-// }>()
-
 const columnVisibleList = ref<string[]>([])
 const columnFixedInfo = ref<IColumnFixedInfo>({})
+const sortableRef = ref<HTMLElement>()
 
 const initSettings = (newSettings?: IColumnSettingItem[]) => {
   if (newSettings?.length) {
-    newSettings.forEach((column) => {
+    newSettings.forEach((column, index) => {
       if (column.label && column.columVisible) {
         columnVisibleList.value.push(column.label)
       }
 
-      columnFixedInfo.value[column.prop] = column.fixed
+      columnFixedInfo.value[column.prop!] = {
+        fixed: column.fixed ?? false,
+        currentIndex: index,
+        originIndex: index
+      }
     })
   } else {
     columnVisibleList.value = []
@@ -71,17 +68,24 @@ const initSettings = (newSettings?: IColumnSettingItem[]) => {
 }
 
 watch(() => props.settings, initSettings, { immediate: true })
-
-/**
- * 确定修改
- */
-const handleConfirmColumSetting = () => {
-  const newColumnSetting: IChangeSetting = {
-    columnVisibleList: columnVisibleList.value,
-    columnFixedInfo: columnFixedInfo.value
+watch(
+  () => columnVisibleList.value,
+  (newColumnSetting) => {
+    bus.emit('change-column-visible', newColumnSetting)
   }
-  bus.emit('change-column-setting', newColumnSetting)
-}
+)
+
+onMounted(() => {
+  Sortable.create(sortableRef.value!, {
+    animation: 150,
+    onEnd(moveInfo) {
+      const { oldIndex, newIndex } = moveInfo
+      if ((oldIndex || oldIndex === 0) && (newIndex || newIndex === 0)) {
+        bus.emit('move-column-position', { newIndex, oldIndex })
+      }
+    }
+  })
+})
 
 /**
  * 修改固定列表信息
@@ -89,12 +93,14 @@ const handleConfirmColumSetting = () => {
  * @param direction
  */
 const handleFixed = (prop: string, direction: 'right' | 'left') => {
-  const currentFixedPosition = columnFixedInfo.value[prop]
+  const currentFixedPosition = columnFixedInfo.value[prop].fixed
   if (currentFixedPosition === direction) {
-    columnFixedInfo.value[prop] = false
+    columnFixedInfo.value[prop]!.fixed = false
   } else {
-    columnFixedInfo.value[prop] = direction
+    columnFixedInfo.value[prop]!.fixed = direction
   }
+
+  bus.emit('change-column-fixed', columnFixedInfo.value)
 }
 </script>
 
@@ -126,13 +132,6 @@ const handleFixed = (prop: string, direction: 'right' | 'left') => {
         background-color: #f0efef;
       }
     }
-  }
-
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 20px;
   }
 }
 </style>

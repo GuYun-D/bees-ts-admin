@@ -70,9 +70,13 @@ interface IColumnSettingColumn extends ICrudTableColumn {
   columVisible?: boolean
   /* 是否导出该字段 */
   excelExportVisible?: boolean
+  /* 原始的index */
+  originIndex: number
+  /* 排序后的index */
+  currentIndex: number
 }
 
-type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed'>
+type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed' | 'currentIndex' | 'originIndex'>
 
 interface ICrudTableHandle {
   options: {
@@ -126,4 +130,4 @@ interface ICrudTableProps<T = any> {
   events?: ITableEvents
 }
 
-export type { ICrudTableProps, ICrudTabldeFieldMap, ICrudTableColumn, ICrudTableHandle, ITableEvents, IColumnSettingColumn, HandleMulitChoose, IColumnSettingItem }
+export type { ColumnFixed, ICrudTableProps, ICrudTabldeFieldMap, ICrudTableColumn, ICrudTableHandle, ITableEvents, IColumnSettingColumn, HandleMulitChoose, IColumnSettingItem }
