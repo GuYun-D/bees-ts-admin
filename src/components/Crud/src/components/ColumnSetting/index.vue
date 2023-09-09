@@ -12,7 +12,7 @@
             <template v-for="(column, index) in settings" :key="column.label">
               <li v-if="index === column.currentIndex">
                 <BeeIcon icon="s-move"></BeeIcon>
-                <span>{{ column.label }}{{ column.currentIndex }}</span>
+                <span>{{ column.label }}</span>
                 <BeeIcon class="move" :color="columnFixedInfo[column.prop].fixed === 'left' ? '#409eff' : ''" @click="handleFixed(column.prop, 'left')" icon="s-left-move"></BeeIcon>
                 <BeeIcon
                   class="move"
@@ -50,6 +50,8 @@ const columnFixedInfo = ref<IColumnFixedInfo>({})
 const sortableRef = ref<HTMLElement>()
 
 const initSettings = (newSettings?: IColumnSettingItem[]) => {
+  console.log(newSettings)
+
   if (newSettings?.length) {
     newSettings.forEach((column, index) => {
       if (column.label && column.columVisible) {

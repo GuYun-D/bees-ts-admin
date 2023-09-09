@@ -56,9 +56,9 @@
 import { ref, inject, onMounted } from 'vue'
 import bus from '../../utils/bus'
 import { TABLE_CONFIG_KEY } from '../../contants'
-import type { IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem, IChangeSetting } from '../../types'
+import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem, IChangeSetting } from '../../types'
 import TableSettings from '../TableSettings/index.vue'
-import { initColumnLocalSettings, generateDefaultSettings, isEmptyObj } from '../../utils'
+import { initColumnLocalSettings, generateDefaultSettings, isEmptyObj, updateTableSettings } from '../../utils'
 
 withDefaults(
   defineProps<{
@@ -75,7 +75,7 @@ const isUseSelectColumnItem = ref<boolean>(false)
 let tableEvents: ITableEvents
 let handleMuiltChooseChange: HandleMulitChoose
 
-const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo) => {
+const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort) => {
   // TODO: 刷新之后action为隐藏
   const handles = tableConfig?.handle
   tableColumns.value = tableColumnsConfig.map((column, index) => {
@@ -93,7 +93,9 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
       fixed = false
     }
 
-    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible: true, columVisible, fixed, originIndex: index, currentIndex: index }
+    const currentIndex = column.prop && columnSort ? columnSort[column.prop] : 0
+
+    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible: true, columVisible, fixed, originIndex: index, currentIndex }
     return newColumn
   })
 
@@ -106,12 +108,14 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
       columVisible: true,
       fixed: columnFixedInfo ? columnFixedInfo.action!.fixed : 'right',
       originIndex: tableColumns.value.length + 1,
-      currentIndex: tableColumns.value.length + 1
+      currentIndex: columnSort ? columnSort.action : 0
     })
   }
 
+  tableColumns.value.sort((a, b) => a.currentIndex - b.currentIndex)
+
   if (tableColumnName.value) {
-    tableSettings.value = generateDefaultSettings(tableColumns.value, tableColumnName.value) as IColumnSettingColumn[]
+    tableSettings.value = generateDefaultSettings(tableColumns.value, tableColumnName.value, columnSort) as IColumnSettingColumn[]
   }
 }
 
@@ -128,8 +132,8 @@ if (tableConfig) {
   if (name) {
     tableColumnName.value = name
     const initLocalTableConfig = initColumnLocalSettings(name)
-    if (initLocalTableConfig && isEmptyObj(initLocalTableConfig)) {
-      initTable(columns, (initLocalTableConfig as IChangeSetting).columnVisibleList, (initLocalTableConfig as IChangeSetting).columnFixedInfo!)
+    if (initLocalTableConfig && !isEmptyObj(initLocalTableConfig)) {
+      initTable(columns, (initLocalTableConfig as IChangeSetting).columnVisibleList, (initLocalTableConfig as IChangeSetting).columnFixedInfo!, (initLocalTableConfig as IChangeSetting).columnSort!)
     } else {
       initTable(columns)
     }
@@ -146,12 +150,16 @@ onMounted(() => {
       item.columVisible = newColumnVisibleArr.includes(item.label)
       return item
     })
+
+    tableColumnName.value && updateTableSettings(tableColumnName.value, 'visible', newColumnVisibleArr)
   })
   bus.on('change-column-fixed', (newColumnFixedInfo) => {
     tableColumns.value = tableColumns.value.map((item) => {
       item.fixed = newColumnFixedInfo[item.prop]!.fixed ?? false
       return item
     })
+
+    tableColumnName.value && updateTableSettings(tableColumnName.value, 'fixed', newColumnFixedInfo)
   })
   bus.on('move-column-position', ({ newIndex, oldIndex }) => {
     if (newIndex > oldIndex) {
@@ -167,6 +175,14 @@ onMounted(() => {
       const rigth = tableColumns.value.slice(oldIndex + 1)
       tableColumns.value = [...left, target, ...center, ...rigth]
     }
+
+    const newColumnSort: IColumnSort = {}
+    tableColumns.value.forEach((column, index) => {
+      if (column.prop) {
+        newColumnSort[column.prop] = index
+      }
+    })
+    tableColumnName.value && updateTableSettings(tableColumnName.value, 'sort', newColumnSort)
   })
 })
 </script>

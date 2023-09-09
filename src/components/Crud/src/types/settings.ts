@@ -1,5 +1,10 @@
 import type { ColumnFixed, IColumnSettingColumn } from './table'
 
+type CacheType = 'visible' | 'excel' | 'fixed' | 'sort'
+interface IColumnSort {
+  [key: string]: number
+}
+
 interface IColumnFixedInfo {
   [key: string]: {
     fixed: ColumnFixed
@@ -16,6 +21,7 @@ interface IMoveColumnPosition {
 interface IChangeSetting {
   columnVisibleList: string[]
   columnFixedInfo: IColumnFixedInfo
+  columnSort: IColumnSort
 }
 
 interface IUpdateLocalTableConfig {
@@ -23,5 +29,6 @@ interface IUpdateLocalTableConfig {
 }
 
 type LocalStorageColumSettings = null | string | IColumnSettingColumn[]
+type UpdateLcalstorageSettings = string[] | IColumnFixedInfo | IColumnSort
 
-export type { IChangeSetting, LocalStorageColumSettings, IColumnFixedInfo, IMoveColumnPosition, IUpdateLocalTableConfig }
+export type { IChangeSetting, LocalStorageColumSettings, IColumnFixedInfo, IMoveColumnPosition, IUpdateLocalTableConfig, CacheType, UpdateLcalstorageSettings, IColumnSort }
