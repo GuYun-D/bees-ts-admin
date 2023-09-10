@@ -42,7 +42,6 @@ const fetchTableData = async (requestApi: (query: IPageQuery) => Promise<any>) =
     const baseQueryInfo = pq.getQueryConfig()
     const res = await requestApi(baseQueryInfo)
     formatData(res)
-    console.log(fm.getField())
   } catch (error) {
     Promise.reject(error)
   }

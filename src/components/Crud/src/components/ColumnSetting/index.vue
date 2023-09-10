@@ -50,8 +50,6 @@ const columnFixedInfo = ref<IColumnFixedInfo>({})
 const sortableRef = ref<HTMLElement>()
 
 const initSettings = (newSettings?: IColumnSettingItem[]) => {
-  console.log(newSettings)
-
   if (newSettings?.length) {
     newSettings.forEach((column, index) => {
       if (column.label && column.columVisible) {

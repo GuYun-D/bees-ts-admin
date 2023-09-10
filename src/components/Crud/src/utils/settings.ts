@@ -112,7 +112,6 @@ export const generateDefaultSettings = (columns: IColumnSettingColumn[], tableNa
  */
 export const updateTableSettings = (tableName: string, cacheType: CacheType, config: UpdateLcalstorageSettings) => {
   let localTableSettings = getColumnLocalSettings(tableName)
-  console.log(config)
 
   if (localTableSettings) {
     switch (cacheType) {
