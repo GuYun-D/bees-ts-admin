@@ -44,6 +44,7 @@
         <!-- 操作 -->
         <el-table-column :fixed="column.fixed" v-bind="tableHandleColumn?.options" v-if="column.prop === 'action' && column.columVisible" label="操作">
           <template #default="scope">
+            {{ column.columVisible }}
             <el-button @click="button.click(scope.row)" v-bind="button.options" v-for="button in tableHandleColumn?.items" :key="button.name">{{ button.name }}</el-button>
           </template>
         </el-table-column>
@@ -105,7 +106,7 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
       label: handles?.label ?? '操作',
       prop: 'action',
       excelExportVisible: true,
-      columVisible: true,
+      columVisible: showColumnLabels ? showColumnLabels.includes('操作') : true,
       fixed: columnFixedInfo ? columnFixedInfo.action!.fixed : 'right',
       originIndex: tableColumns.value.length + 1,
       currentIndex: columnSort ? columnSort.action : 0
@@ -113,6 +114,8 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
   }
 
   tableColumns.value.sort((a, b) => a.currentIndex - b.currentIndex)
+
+  console.log('妈的', tableColumns.value)
 
   if (tableColumnName.value) {
     tableSettings.value = generateDefaultSettings(tableColumns.value, tableColumnName.value, columnSort) as IColumnSettingColumn[]

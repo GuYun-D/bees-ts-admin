@@ -42,7 +42,8 @@ export default class Request {
             ElMessage.error(data.message || i18n.global.t('request.500'))
             break
         }
-        return err
+
+        return Promise.reject(err)
       }
     )
 
