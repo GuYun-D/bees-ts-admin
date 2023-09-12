@@ -37,7 +37,20 @@
           :fixed="column.fixed"
         >
           <template #default="scope" v-if="column.prop !== 'handle'">
-            {{ scope.row[column.prop] || (typeof column.defaultValue === 'function' ? column.defaultValue(scope.row) : column.defaultValue) }}
+            <template v-if="!column.dicts && !column.valueType">
+              {{ scope.row[column.prop] || scope.row[column.prop] === 0 ? scope.row[column.prop] : typeof column.defaultValue === 'function' ? column.defaultValue(scope.row) : column.defaultValue }}
+            </template>
+
+            <ValueType
+              v-else
+              :name="typeof column.valueType === 'string' ? column.valueType : column.valueType?.name"
+              :options="column.valueTypeOption || (typeof column.valueType === 'object' && column.valueType.options ? column.valueType.options : undefined)"
+              :events="typeof column.valueType === 'object' ? column.valueType.events : undefined"
+              :dicts="column.dicts"
+              :value="
+                scope.row[column.prop] || scope.row[column.prop] === 0 ? scope.row[column.prop] : typeof column.defaultValue === 'function' ? column.defaultValue(scope.row) : column.defaultValue
+              "
+            ></ValueType>
           </template>
         </el-table-column>
 
@@ -59,6 +72,7 @@ import { TABLE_CONFIG_KEY } from '../../contants'
 import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem, IChangeSetting } from '../../types'
 import TableSettings from '../TableSettings/index.vue'
 import { initColumnLocalSettings, generateDefaultSettings, isEmptyObj, updateTableSettings } from '../../utils'
+import ValueType from '../ValueType/index.vue'
 
 withDefaults(
   defineProps<{
@@ -76,7 +90,8 @@ let tableEvents: ITableEvents
 let handleMuiltChooseChange: HandleMulitChoose
 
 const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort) => {
-  // TODO: 刷新之后action为隐藏
+  console.log(tableColumnsConfig)
+
   const handles = tableConfig?.handle
   tableColumns.value = tableColumnsConfig.map((column, index) => {
     if (column.type && column.type === 'selection') {

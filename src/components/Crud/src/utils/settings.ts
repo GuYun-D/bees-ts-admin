@@ -33,6 +33,7 @@ export const setLocalColumnSettings = <T>(key: string, value: T) => {
  * @param tableName
  */
 export const initColumnLocalSettings = (tableName: string): IChangeSetting | {} => {
+  // TODO: 这里也是要做generateDefaultSettings那些动作的
   const columnVisibleList: string[] = []
   const columnFixedInfo: IColumnFixedInfo = {}
   const columnSort: IColumnSort = {}
@@ -71,7 +72,7 @@ export const generateDefaultSettings = (columns: IColumnSettingColumn[], tableNa
   if (!tableName) return null
   const localTableSettings = getColumnLocalSettings(tableName)
 
-  if (localTableSettings) {
+  if (localTableSettings && localTableSettings.length === columns.length) {
     if (columnSort) {
       return localTableSettings
         .map((column, index) => {
@@ -85,6 +86,21 @@ export const generateDefaultSettings = (columns: IColumnSettingColumn[], tableNa
     } else {
       return localTableSettings
     }
+  } else if (localTableSettings && localTableSettings.length !== columns.length) {
+    return columns
+      .map((column, index) => {
+        return {
+          label: column.label,
+          prop: column.prop,
+          excelExportVisible: column.excelExportVisible,
+          columVisible: column.columVisible,
+          type: column.type,
+          fixed: column.fixed,
+          currentIndex: column.currentIndex ?? 0,
+          originIndex: index
+        }
+      })
+      .sort((a, b) => a.currentIndex - b.currentIndex)
   } else {
     const columnDefaultSettings = columns.map((column, index) => {
       return {

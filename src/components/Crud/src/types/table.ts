@@ -1,9 +1,23 @@
-import type { ButtonProps, TableColumnCtx } from 'element-plus'
+import type { ButtonProps, TableColumnCtx, ImageEmits, AvatarEmits, tagProps, avatarProps, imageProps } from 'element-plus'
 import type { IPageQuery } from './request'
 
 type HandleFixPosition = 'left' | 'right'
 type HandleMulitChoose = (rowList?: any[]) => void
 type ColumnFixed = Boolean | 'right' | 'left'
+type ValueTypeName = 'tag' | 'img' | 'avatar' | 'img'
+
+interface IValueTypeEvents extends ImageEmits, AvatarEmits {
+  click?: (evt: MouseEvent) => boolean
+}
+
+type IValueTypeOptions = Partial<typeof avatarProps> & Partial<typeof imageProps> & Partial<typeof tagProps>
+
+interface IValueType {
+  /* TODO: 参数动态化 */
+  name: ValueTypeName
+  options?: any
+  events?: IValueTypeEvents
+}
 
 interface ICrudTabldeFieldMap {
   /* table 数据列表 */
@@ -62,6 +76,10 @@ interface ICrudTableColumn {
   defaultValue?: number | string | boolean | null | undefined | symbol | bigint | ((rowData: any) => void)
   /* 是否固定列 */
   fixed?: ColumnFixed
+  /* value-type options */
+  valueTypeOption?: any
+  /* valueType Name */
+  valueType?: ValueTypeName | IValueType
 }
 
 /* 列设置类型 */
@@ -130,4 +148,18 @@ interface ICrudTableProps<T = any> {
   events?: ITableEvents
 }
 
-export type { ColumnFixed, ICrudTableProps, ICrudTabldeFieldMap, ICrudTableColumn, ICrudTableHandle, ITableEvents, IColumnSettingColumn, HandleMulitChoose, IColumnSettingItem }
+export type {
+  ICrudTableColumnDicts,
+  ValueTypeName,
+  ColumnFixed,
+  ICrudTableProps,
+  ICrudTabldeFieldMap,
+  ICrudTableColumn,
+  ICrudTableHandle,
+  ITableEvents,
+  IColumnSettingColumn,
+  HandleMulitChoose,
+  IColumnSettingItem,
+  IValueTypeEvents,
+  IValueTypeOptions
+}

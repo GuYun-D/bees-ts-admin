@@ -55,13 +55,53 @@ export const getTableConfig = (): ICrudTableProps => {
         prop: 'suoyin',
         label: '索引',
         width: 100,
-        defaultValue: 'prop'
+        defaultValue: () => '函数执行索引'
       },
       {
         prop: 'name',
         label: '用户姓名',
         width: 100
       },
+      {
+        prop: 'role',
+        label: '用户角色',
+        dicts: [
+          {
+            label: '超级管理员',
+            value: 0
+          },
+          {
+            label: '管理员',
+            value: 1
+          },
+          {
+            label: '员工',
+            value: 2
+          }
+        ],
+        valueTypeOption: {
+          type: 'danger'
+        }
+      },
+      {
+        prop: 'avatar',
+        label: '用户头像',
+        valueType: 'avatar',
+        options: {
+          align: 'center'
+        },
+        valueTypeOption: {}
+      },
+      // {
+      //   prop: 'img',
+      //   label: '风景画',
+      //   options: {
+      //     align: 'center'
+      //   },
+      //   valueType: {
+      //     name: 'img',
+      //   }
+      // },
       {
         prop: 'age',
         label: '年龄',
