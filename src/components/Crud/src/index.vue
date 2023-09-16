@@ -24,6 +24,7 @@ const props = withDefaults(
 )
 
 const tableData = ref<any>()
+const totalTableCount = ref<number>(0)
 // const currentPage = ref<number | string>(pq.getQueryConfig().page)
 
 /**
@@ -31,6 +32,7 @@ const tableData = ref<any>()
  */
 const formatData = (data: any) => {
   const finalFields = fm.getField()
+  totalTableCount.value = data[finalFields.totalCount!]
   tableData.value = data[finalFields.data!]
 }
 
@@ -76,7 +78,8 @@ onMounted(() => {
   bus.on('get-request-config', (cb) => {
     cb({
       queryInfo: pq.getQueryConfig(),
-      queryConfig: fm.getField()
+      queryConfig: fm.getField(),
+      totalTableCount: totalTableCount.value
     })
   })
 })

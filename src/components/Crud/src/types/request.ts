@@ -15,4 +15,5 @@ export interface IPageQuerySetting {
 export interface IRequestConfig {
   queryInfo: IPageQuery
   queryConfig: ICrudTabldeFieldMap
+  totalTableCount: number
 }

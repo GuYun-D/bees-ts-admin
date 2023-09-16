@@ -4,7 +4,6 @@
     <el-table @currentChange="tableEvents?.currentChange" :data="tableData" :highlight-current-row="isUseSelectColumnItem" style="width: 100%" @selection-change="handleMuiltChooseChange">
       <template v-for="column in tableColumns" :key="column.prop">
         <!-- 多选 -->
-
         <el-table-column
           :fixed="column.fixed"
           v-if="column.type && column.type === 'selection' && column.columVisible"
@@ -77,7 +76,7 @@ import { initColumnLocalSettings, generateDefaultSettings, updateTableSettings }
 import ValueType from '../ValueType/index.vue'
 import ExcelExport from '../ExcelExport/index.vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     tableData: any[]
   }>(),
@@ -88,10 +87,19 @@ const tableColumns = ref<IColumnSettingColumn[]>([])
 const tableSettings = ref<IColumnSettingItem[]>([])
 const tableHandleColumn = ref<ICrudTableHandle>()
 const tableColumnName = ref<string>()
+const selectColumnList = ref<any[]>([])
 const excelExportRef = ref<InstanceType<typeof ExcelExport>>()
 const isUseSelectColumnItem = ref<boolean>(false)
 let tableEvents: ITableEvents
-let handleMuiltChooseChange: HandleMulitChoose
+let custormMultSelectCb: HandleMulitChoose
+
+const handleMuiltChooseChange: HandleMulitChoose = (rowList: any) => {
+  if (custormMultSelectCb && typeof custormMultSelectCb === 'function') {
+    custormMultSelectCb(rowList)
+  }
+
+  selectColumnList.value = rowList
+}
 
 const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort, exportExcelFields?: string[]) => {
   console.log(tableColumnsConfig)
@@ -100,9 +108,7 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
   tableColumns.value = tableColumnsConfig.map((column, index) => {
     if (column.type && column.type === 'selection') {
       if (column.selectionChage) {
-        handleMuiltChooseChange = column.selectionChage
-      } else {
-        // TODO: 整合多选回调和默认回调
+        custormMultSelectCb = column.selectionChage
       }
     }
 
@@ -216,7 +222,7 @@ onMounted(() => {
     tableColumnName.value && updateTableSettings(tableColumnName.value, 'sort', newColumnSort)
   })
   bus.on('export-excel', () => {
-    excelExportRef.value?.show(tableColumns.value)
+    excelExportRef.value?.show(tableColumns.value, selectColumnList.value, props.tableData)
   })
 })
 </script>

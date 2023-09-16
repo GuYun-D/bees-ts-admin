@@ -1,4 +1,5 @@
-import { IColumnSettingColumn, IExcelEnMapZh } from '../types'
+import type { IColumnSettingColumn, IExcelEnMapZh } from '../types'
+import * as exporter from './export2Excel'
 
 /**
  * 生成 zh-en 映射表
@@ -15,11 +16,29 @@ export const generateZhAndEnMap = (exportKeys: string[], tableColumns: IColumnSe
 }
 
 /**
+ * 格式化带字典的数据
+ */
+const formatDictsData = (data: any, prop: string, columns: IColumnSettingColumn[]) => {
+  const currentColumn = columns.find((column) => column.prop === prop)
+  if (currentColumn && currentColumn.dicts) {
+    const dicts = currentColumn.dicts
+    const currentDict = dicts.find((item) => item.value === data)
+    if (currentDict) {
+      return currentDict.label
+    } else {
+      return data
+    }
+  } else {
+    return data
+  }
+}
+
+/**
  * 格式化excel 数据
  */
 export const formatExcelData = <T = any>(header?: string[], data?: T[], columns?: IColumnSettingColumn[]) => {
   if (!header || !data) {
-    console.error('this excel-header and data is required')
+    console.error('the excel-header and data is required')
     return
   }
 
@@ -38,8 +57,26 @@ export const formatExcelData = <T = any>(header?: string[], data?: T[], columns?
       if (['function', 'object'].includes(typeof rowData)) {
         return JSON.stringify(rowData)
       } else {
-        return rowData
+        return formatDictsData(rowData, enTitle, columns)
       }
     })
+  })
+}
+
+/**
+ * 导出excel
+ */
+export const exportExcelFc = (excelHeader: string[], data: any[], originColumns: IColumnSettingColumn[], filename?: string) => {
+  return new Promise((resolve, reject) => {
+    try {
+      exporter.export_json_to_excel({
+        header: excelHeader,
+        data: formatExcelData(excelHeader, data, originColumns),
+        filename: filename || Date.now()
+      })
+      resolve('')
+    } catch (error) {
+      reject(error)
+    }
   })
 }
