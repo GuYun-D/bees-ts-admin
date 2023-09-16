@@ -1,8 +1,8 @@
 <template>
   <div class="table-settings-container">
     <div class="right">
-      <el-button> <BeeIcon icon="s-excel-export" style="margin-right: 5px"></BeeIcon> excel 导出</el-button>
-      <el-popover placement="bottom" :width="600" trigger="click">
+      <el-button v-if="tableConfig?.showExcelExport" type="success" @click="handleExportExcel"> <BeeIcon color="#fff" icon="s-excel-export" style="margin-right: 5px"></BeeIcon> excel 导出</el-button>
+      <el-popover v-if="tableConfig?.showSetting" placement="bottom" :width="600" trigger="click">
         <template #reference>
           <el-button type="primary"> <BeeIcon style="margin-right: 5px" icon="el-icon-setting"></BeeIcon> 列设置</el-button>
         </template>
@@ -16,9 +16,14 @@
 </template>
 
 <script setup lang="ts">
+import { inject } from 'vue'
 import ColumnSetting from '../ColumnSetting/index.vue'
 import type { IColumnSettingItem } from '../../types'
 import BeeIcon from '@/components/BeeIcon/index.vue'
+import bus from '../../utils/bus'
+import { TABLE_CONFIG_KEY } from '../../contants'
+
+const tableConfig = inject(TABLE_CONFIG_KEY)
 
 withDefaults(
   defineProps<{
@@ -28,6 +33,10 @@ withDefaults(
     settings: undefined
   }
 )
+
+const handleExportExcel = () => {
+  bus.emit('export-excel')
+}
 </script>
 
 <style lang="scss" scoped>

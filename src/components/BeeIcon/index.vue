@@ -39,10 +39,11 @@ watch(
   () => props.icon,
   (iconName) => {
     if (iconName) {
-      if (iconName.includes('el-')) {
+      const prefix = iconName.slice(0, 2)
+      if (prefix === 'el') {
         const name = iconName.replace('el-icon-', '')
         elIconName.value = name[0].toUpperCase() + name.slice(1)
-      } else if (iconName.includes('s-')) {
+      } else if (prefix === 's-') {
         svgIconName.value = `#icon-${iconName.replace('s-', '')}`
       } else {
         otherIconStyle.value = {

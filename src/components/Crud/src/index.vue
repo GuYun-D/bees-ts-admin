@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, provide } from 'vue'
+import { ref, watch, provide, onMounted } from 'vue'
+import bus from './utils/bus'
 import { TABLE_CONFIG_KEY } from './contants'
 import BTable from './components/BTable/index.vue'
 import type { ICrudTableProps, ICrudTabldeFieldMap, IPageQuery } from './types'
@@ -69,6 +70,15 @@ const initColumns = (tableConfig: ICrudTableProps) => {
 watch(() => props.tableConfig, initColumns, {
   immediate: true,
   deep: true
+})
+
+onMounted(() => {
+  bus.on('get-request-config', (cb) => {
+    cb({
+      queryInfo: pq.getQueryConfig(),
+      queryConfig: fm.getField()
+    })
+  })
 })
 </script>
 

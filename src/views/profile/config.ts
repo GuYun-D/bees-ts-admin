@@ -8,6 +8,7 @@ export const getTableConfig = (): ICrudTableProps => {
     },
 
     showSetting: true,
+    showExcelExport: true,
     name: 'test-column-setting',
 
     handle: {

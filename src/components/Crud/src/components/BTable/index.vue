@@ -62,6 +62,8 @@
         </el-table-column>
       </template>
     </el-table>
+
+    <ExcelExport ref="excelExportRef"></ExcelExport>
   </div>
 </template>
 
@@ -73,6 +75,7 @@ import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, ICo
 import TableSettings from '../TableSettings/index.vue'
 import { initColumnLocalSettings, generateDefaultSettings, isEmptyObj, updateTableSettings } from '../../utils'
 import ValueType from '../ValueType/index.vue'
+import ExcelExport from '../ExcelExport/index.vue'
 
 withDefaults(
   defineProps<{
@@ -85,6 +88,7 @@ const tableColumns = ref<IColumnSettingColumn[]>([])
 const tableSettings = ref<IColumnSettingItem[]>([])
 const tableHandleColumn = ref<ICrudTableHandle>()
 const tableColumnName = ref<string>()
+const excelExportRef = ref<InstanceType<typeof ExcelExport>>()
 const isUseSelectColumnItem = ref<boolean>(false)
 let tableEvents: ITableEvents
 let handleMuiltChooseChange: HandleMulitChoose
@@ -97,6 +101,8 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
     if (column.type && column.type === 'selection') {
       if (column.selectionChage) {
         handleMuiltChooseChange = column.selectionChage
+      } else {
+        // TODO: 整合多选回调和默认回调
       }
     }
 
@@ -198,6 +204,9 @@ onMounted(() => {
       }
     })
     tableColumnName.value && updateTableSettings(tableColumnName.value, 'sort', newColumnSort)
+  })
+  bus.on('export-excel', () => {
+    excelExportRef.value?.show(tableColumns.value)
   })
 })
 </script>

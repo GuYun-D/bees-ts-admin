@@ -20,6 +20,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
     'import/no-duplicates': 'off',
-    'func-call-spacing': 'off'
+    'func-call-spacing': 'off',
+    'node/no-callback-literal': 'off'
   }
 }

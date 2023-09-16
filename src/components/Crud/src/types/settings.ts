@@ -5,6 +5,10 @@ interface IColumnSort {
   [key: string]: number
 }
 
+interface IExcelEnMapZh {
+  [key: string]: string
+}
+
 interface IColumnFixedInfo {
   [key: string]: {
     fixed: ColumnFixed
@@ -31,4 +35,4 @@ interface IUpdateLocalTableConfig {
 type LocalStorageColumSettings = null | string | IColumnSettingColumn[]
 type UpdateLcalstorageSettings = string[] | IColumnFixedInfo | IColumnSort
 
-export type { IChangeSetting, LocalStorageColumSettings, IColumnFixedInfo, IMoveColumnPosition, IUpdateLocalTableConfig, CacheType, UpdateLcalstorageSettings, IColumnSort }
+export type { IExcelEnMapZh, IChangeSetting, LocalStorageColumSettings, IColumnFixedInfo, IMoveColumnPosition, IUpdateLocalTableConfig, CacheType, UpdateLcalstorageSettings, IColumnSort }
