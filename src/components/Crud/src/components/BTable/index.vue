@@ -71,9 +71,9 @@
 import { ref, inject, onMounted } from 'vue'
 import bus from '../../utils/bus'
 import { TABLE_CONFIG_KEY } from '../../contants'
-import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem, IChangeSetting } from '../../types'
+import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem } from '../../types'
 import TableSettings from '../TableSettings/index.vue'
-import { initColumnLocalSettings, generateDefaultSettings, isEmptyObj, updateTableSettings } from '../../utils'
+import { initColumnLocalSettings, generateDefaultSettings, updateTableSettings } from '../../utils'
 import ValueType from '../ValueType/index.vue'
 import ExcelExport from '../ExcelExport/index.vue'
 
@@ -93,7 +93,7 @@ const isUseSelectColumnItem = ref<boolean>(false)
 let tableEvents: ITableEvents
 let handleMuiltChooseChange: HandleMulitChoose
 
-const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort) => {
+const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort, exportExcelFields?: string[]) => {
   console.log(tableColumnsConfig)
 
   const handles = tableConfig?.handle
@@ -107,6 +107,7 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
     }
 
     const columVisible = showColumnLabels ? showColumnLabels.includes(column.label) : true
+    const excelExportVisible = exportExcelFields ? exportExcelFields.includes(column.label) : true
     let fixed
     if (columnFixedInfo && columnFixedInfo[column.prop] && columnFixedInfo[column.prop].fixed) {
       fixed = columnFixedInfo[column.prop].fixed
@@ -116,7 +117,7 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
 
     const currentIndex = column.prop && columnSort ? columnSort[column.prop] : 0
 
-    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible: true, columVisible, fixed, originIndex: index, currentIndex }
+    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible, columVisible, fixed, originIndex: index, currentIndex }
     return newColumn
   })
 
@@ -125,7 +126,7 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
     tableColumns.value.push({
       label: handles?.label ?? '操作',
       prop: 'action',
-      excelExportVisible: true,
+      excelExportVisible: exportExcelFields ? exportExcelFields.includes('操作') : true,
       columVisible: showColumnLabels ? showColumnLabels.includes('操作') : true,
       fixed: columnFixedInfo ? columnFixedInfo.action!.fixed : 'right',
       originIndex: tableColumns.value.length + 1,
@@ -153,8 +154,8 @@ if (tableConfig) {
   if (name) {
     tableColumnName.value = name
     const initLocalTableConfig = initColumnLocalSettings(name)
-    if (initLocalTableConfig && !isEmptyObj(initLocalTableConfig)) {
-      initTable(columns, (initLocalTableConfig as IChangeSetting).columnVisibleList, (initLocalTableConfig as IChangeSetting).columnFixedInfo!, (initLocalTableConfig as IChangeSetting).columnSort!)
+    if (initLocalTableConfig) {
+      initTable(columns, initLocalTableConfig.columnVisibleList, initLocalTableConfig.columnFixedInfo, initLocalTableConfig.columnSort, initLocalTableConfig.columnExcelExportList)
     } else {
       initTable(columns)
     }
@@ -173,6 +174,15 @@ onMounted(() => {
     })
 
     tableColumnName.value && updateTableSettings(tableColumnName.value, 'visible', newColumnVisibleArr)
+  })
+
+  bus.on('change-column-export', (newExportFieldArr) => {
+    tableColumns.value = tableColumns.value.map((item) => {
+      item.excelExportVisible = newExportFieldArr.includes(item.label)
+      return item
+    })
+
+    tableColumnName.value && updateTableSettings(tableColumnName.value, 'excel', newExportFieldArr)
   })
   bus.on('change-column-fixed', (newColumnFixedInfo) => {
     tableColumns.value = tableColumns.value.map((item) => {

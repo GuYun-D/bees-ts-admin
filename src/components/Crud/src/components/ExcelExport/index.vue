@@ -45,6 +45,7 @@ const originTableColumns = ref<IColumnSettingColumn[]>([])
 const isLoading = ref<boolean>(false)
 
 const show = (tableColumns: IColumnSettingColumn[]) => {
+  debugger
   excelExportDialogVisible.value = true
   originTableColumns.value = tableColumns
   tableColumns.forEach((column) => {

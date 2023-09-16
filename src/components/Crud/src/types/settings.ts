@@ -26,6 +26,7 @@ interface IChangeSetting {
   columnVisibleList: string[]
   columnFixedInfo: IColumnFixedInfo
   columnSort: IColumnSort
+  columnExcelExportList: string[]
 }
 
 interface IUpdateLocalTableConfig {

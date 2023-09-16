@@ -1,7 +1,7 @@
 import { IColumnSettingColumn, IExcelEnMapZh } from '../types'
 
 /**
- * 生成 zh-en对照表
+ * 生成 zh-en 映射表
  */
 export const generateZhAndEnMap = (exportKeys: string[], tableColumns: IColumnSettingColumn[]): IExcelEnMapZh => {
   const mapObj: IExcelEnMapZh = {}

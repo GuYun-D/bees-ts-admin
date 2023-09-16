@@ -3,10 +3,25 @@
     <div class="main">
       <el-descriptions title="列设置" direction="vertical" :column="2" border>
         <el-descriptions-item label="是否显示">
-          <el-checkbox-group v-model="columnVisibleList">
-            <el-checkbox :label="column.label" v-for="column in settings" :key="column.prop" />
-          </el-checkbox-group>
+          <div class="setting-item">
+            <el-divider content-position="left">
+              <h6><BeeIcon icon="s-column-item"></BeeIcon> <span>是否显示</span></h6>
+            </el-divider>
+            <el-checkbox-group v-model="columnVisibleList">
+              <el-checkbox size="small" :label="column.label" v-for="column in settings" :key="column.prop" />
+            </el-checkbox-group>
+          </div>
+
+          <div class="setting-item">
+            <el-divider content-position="left">
+              <h6><BeeIcon icon="s-column-export"></BeeIcon> <span>是否导出</span></h6>
+            </el-divider>
+            <el-checkbox-group v-model="columnExportList">
+              <el-checkbox size="small" :label="column.label" v-for="column in settings" :key="column.prop" />
+            </el-checkbox-group>
+          </div>
         </el-descriptions-item>
+
         <el-descriptions-item label="表头排序">
           <ul style="width: 150px" ref="sortableRef">
             <template v-for="(column, index) in settings" :key="column.label">
@@ -46,14 +61,16 @@ const props = withDefaults(
 )
 
 const columnVisibleList = ref<string[]>([])
+const columnExportList = ref<string[]>([])
 const columnFixedInfo = ref<IColumnFixedInfo>({})
 const sortableRef = ref<HTMLElement>()
 
 const initSettings = (newSettings?: IColumnSettingItem[]) => {
   if (newSettings?.length) {
     newSettings.forEach((column, index) => {
-      if (column.label && column.columVisible) {
-        columnVisibleList.value.push(column.label)
+      if (column.label) {
+        column.columVisible && columnVisibleList.value.push(column.label)
+        column.excelExportVisible && columnExportList.value.push(column.label)
       }
 
       columnFixedInfo.value[column.prop!] = {
@@ -72,6 +89,12 @@ watch(
   () => columnVisibleList.value,
   (newColumnSetting) => {
     bus.emit('change-column-visible', newColumnSetting)
+  }
+)
+watch(
+  () => columnExportList.value,
+  (newColumnSetting) => {
+    bus.emit('change-column-export', newColumnSetting)
   }
 )
 
@@ -106,6 +129,16 @@ const handleFixed = (prop: string, direction: 'right' | 'left') => {
 
 <style scoped lang="scss">
 .colum-setting-container {
+  h6 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f6f6f6;
+
+    span {
+      margin-left: 4px;
+    }
+  }
+
   ul {
     li {
       display: flex;

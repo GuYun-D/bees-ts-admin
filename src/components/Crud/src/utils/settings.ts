@@ -32,18 +32,20 @@ export const setLocalColumnSettings = <T>(key: string, value: T) => {
  * 初始化表格的本地配置
  * @param tableName
  */
-export const initColumnLocalSettings = (tableName: string): IChangeSetting | {} => {
+export const initColumnLocalSettings = (tableName: string): IChangeSetting | false => {
   // TODO: 这里也是要做generateDefaultSettings那些动作的
   const columnVisibleList: string[] = []
   const columnFixedInfo: IColumnFixedInfo = {}
   const columnSort: IColumnSort = {}
+  const columnExcelExportList: string[] = []
 
   const localTableSettings = getColumnLocalSettings(tableName)
 
   if (localTableSettings) {
     localTableSettings.forEach((column) => {
-      if (column.label && column.columVisible) {
-        columnVisibleList.push(column.label)
+      if (column.label) {
+        column.columVisible && columnVisibleList.push(column.label)
+        column.excelExportVisible && columnExcelExportList.push(column.label)
       }
 
       if (column.prop) {
@@ -58,11 +60,12 @@ export const initColumnLocalSettings = (tableName: string): IChangeSetting | {} 
     return {
       columnFixedInfo,
       columnVisibleList,
-      columnSort
+      columnSort,
+      columnExcelExportList
     }
   }
 
-  return {}
+  return false
 }
 
 /**
@@ -157,6 +160,17 @@ export const updateTableSettings = (tableName: string, cacheType: CacheType, con
         localTableSettings = localTableSettings.map((column) => {
           if (column.prop) {
             column.currentIndex = (config as IColumnSort)[column.prop] ?? 0
+          }
+          return column
+        })
+
+        setLocalColumnSettings(tableName, localTableSettings)
+        break
+
+      case 'excel':
+        localTableSettings = localTableSettings.map((column) => {
+          if (column.prop) {
+            column.excelExportVisible = (config as string[]).includes(column.label)
           }
           return column
         })
