@@ -2,7 +2,7 @@
   <div class="colum-setting-container" v-if="settings">
     <div class="main">
       <el-descriptions title="列设置" direction="vertical" :column="2" border>
-        <el-descriptions-item label="是否显示">
+        <el-descriptions-item title="基本设置">
           <div class="setting-item">
             <el-divider content-position="left">
               <h6><BeeIcon icon="s-column-item"></BeeIcon> <span>是否显示</span></h6>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BCrud :table-config="tableColums"></BCrud>
+    <BCrud :table-config="tableColums" :search-config="searchConfig"></BCrud>
   </div>
 </template>
 
@@ -8,9 +8,10 @@
 import { ref } from 'vue'
 
 import { BCrud, ICrudTableProps } from '@/components/Crud'
-import { getTableConfig } from './config'
+import { getTableConfig, getSearchConfig } from './config'
 
 const tableColums = ref<ICrudTableProps>(getTableConfig())
+const searchConfig = getSearchConfig()
 </script>
 
 <style scoped lang="scss"></style>

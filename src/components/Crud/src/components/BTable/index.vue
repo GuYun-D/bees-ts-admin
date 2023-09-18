@@ -82,6 +82,7 @@ const props = withDefaults(
   }>(),
   {}
 )
+
 const tableConfig = inject(TABLE_CONFIG_KEY)
 const tableColumns = ref<IColumnSettingColumn[]>([])
 const tableSettings = ref<IColumnSettingItem[]>([])

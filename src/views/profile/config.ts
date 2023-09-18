@@ -1,4 +1,4 @@
-import { ICrudTableProps } from '@/components/Crud/index'
+import { ICrudTableProps, ICrudSearchProps } from '@/components/Crud/index'
 import { testCrudComponentsApi } from '@/service/api/login'
 
 export const getTableConfig = (): ICrudTableProps => {
@@ -118,4 +118,15 @@ export const getTableConfig = (): ICrudTableProps => {
       data: 'list'
     }
   }
+}
+
+export const getSearchConfig = (): ICrudSearchProps => {
+  return [
+    {
+      label: '姓名',
+      prop: 'name'
+    },
+    'role',
+    'avatar'
+  ]
 }
