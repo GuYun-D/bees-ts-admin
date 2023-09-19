@@ -31,7 +31,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  (e: 'seach', value1: ICommonOBJ, value2: () => void): void
+  (e: 'seach', value1: ICommonOBJ, value2: () => void, value3: boolean): void
 }>()
 
 const isLoading = ref<boolean>(false)
@@ -76,9 +76,14 @@ const inintForm = (searchConfig?: ICrudSearchProps) => {
  */
 const handleSeach = () => {
   isLoading.value = true
-  emits('seach', formData.value, () => {
-    isLoading.value = false
-  })
+  emits(
+    'seach',
+    formData.value,
+    () => {
+      isLoading.value = false
+    },
+    false
+  )
 }
 
 /**
@@ -87,9 +92,14 @@ const handleSeach = () => {
 const handleResetForm = () => {
   formData.value = {}
   isLoading.value = true
-  emits('seach', formData.value, () => {
-    isLoading.value = false
-  })
+  emits(
+    'seach',
+    formData.value,
+    () => {
+      isLoading.value = false
+    },
+    true
+  )
 }
 
 watch(() => props.searchConfig, inintForm, { immediate: true })

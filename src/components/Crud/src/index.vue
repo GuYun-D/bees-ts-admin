@@ -2,6 +2,17 @@
   <div class="bee-crud-container">
     <BeeForm @seach="handleSeachTable" :search-config="searchConfig"></BeeForm>
     <BTable :table-data="tableData"></BTable>
+    <div class="bee-el__pagination__wrapper">
+      <el-pagination
+        v-model:current-page="baseQueryInfo[tableSearchFieldsConfig.page!]"
+        v-model:page-size="baseQueryInfo[tableSearchFieldsConfig.size!]"
+        :page-sizes="[100, 200, 300, 400]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalTableCount"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,7 +39,9 @@ const props = withDefaults(
 
 const tableData = ref<any>()
 const totalTableCount = ref<number>(0)
+const tableSearchFieldsConfig = ref<ICrudTabldeFieldMap>(fm.getField())
 let tableSeachQuery: ICommonOBJ = {}
+const baseQueryInfo = ref<IPageQuery>(pq.getQueryConfig())
 let tableRequestApi: (query: IPageQuery) => Promise<any>
 // const currentPage = ref<number | string>(pq.getQueryConfig().page)
 
@@ -52,8 +65,7 @@ const fetchTableData = async () => {
   }
 
   try {
-    const baseQueryInfo = pq.getQueryConfig()
-    const res = await tableRequestApi({ ...baseQueryInfo, ...tableSeachQuery })
+    const res = await tableRequestApi({ ...baseQueryInfo.value, ...tableSeachQuery })
     formatData(res)
   } catch (error) {
     Promise.reject(error)
@@ -63,7 +75,9 @@ const fetchTableData = async () => {
 /**
  * 点击搜索
  */
-const handleSeachTable = async (queryInfo: ICommonOBJ, hiddenLoading: () => void) => {
+const handleSeachTable = async (queryInfo: ICommonOBJ, hiddenLoading: () => void, isReset: boolean) => {
+  isReset && (baseQueryInfo.value[tableSearchFieldsConfig.value.size!] = 20)
+  isReset && (baseQueryInfo.value[tableSearchFieldsConfig.value.page!] = 1)
   try {
     tableSeachQuery = queryInfo
     await fetchTableData()
@@ -74,20 +88,46 @@ const handleSeachTable = async (queryInfo: ICommonOBJ, hiddenLoading: () => void
 }
 
 /**
+ * 当前页发生变化
+ */
+const handleCurrentChange = (currentPage: number) => {
+  baseQueryInfo.value[tableSearchFieldsConfig.value.page!] = currentPage
+  fetchTableData()
+}
+
+/**
+ * 当前size 发生变化
+ */
+const handleSizeChange = (currentPageSize: number) => {
+  baseQueryInfo.value[tableSearchFieldsConfig.value.size!] = currentPageSize
+  fetchTableData()
+}
+
+/**
  * 初始化接口返回值字段映射
  * 默认配置 全局配置 局部配置
  * @param fieldConfig
  */
-const initFieldMap = (fieldConfig: ICrudTabldeFieldMap) => {
-  // @ts-ignore
-  fm.setField(fieldConfig)
+const initFieldMap = (fieldConfig?: ICrudTabldeFieldMap) => {
+  if (fieldConfig) {
+    tableSearchFieldsConfig.value = fieldConfig
+    // @ts-ignore
+    fm.setField(fieldConfig)
+    if (fieldConfig.page) {
+      baseQueryInfo.value[fieldConfig.page!] = 1
+      delete baseQueryInfo.value.page
+    }
+
+    if (fieldConfig.size) {
+      baseQueryInfo.value[fieldConfig.size!] = 20
+      delete baseQueryInfo.value.size
+    }
+  }
 }
 
 const initColumns = (tableConfig: ICrudTableProps) => {
   const { fieldsMap, requestApi } = tableConfig
-  if (fieldsMap) {
-    initFieldMap(fieldsMap)
-  }
+  initFieldMap(fieldsMap)
   tableRequestApi = requestApi
   fetchTableData()
   provide(TABLE_CONFIG_KEY, tableConfig)
@@ -109,4 +149,11 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.bee-el__pagination__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+</style>

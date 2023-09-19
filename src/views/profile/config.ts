@@ -115,7 +115,10 @@ export const getTableConfig = (): ICrudTableProps => {
     ],
 
     fieldsMap: {
-      data: 'list'
+      data: 'list',
+      size: 'pageSize',
+      page: 'pageNo',
+      totalCount: 'counts'
     }
   }
 }
