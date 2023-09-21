@@ -1,5 +1,7 @@
 <template>
-  <div class="bee-app-main-view">
+  <el-scrollbar class="bee-app-main-view">
+    <!-- TODO: 优化滚动条的位置 -->
+    <!-- <div> -->
     <router-view v-slot="{ Component, route }">
       <Transition name="fade-transform" mode="out-in">
         <keep-alive>
@@ -7,7 +9,8 @@
         </keep-alive>
       </Transition>
     </router-view>
-  </div>
+    <!-- </div> -->
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
@@ -56,11 +59,12 @@ watchLanguageChange(() => {
 
 <style scoped lang="scss">
 .bee-app-main-view {
-  min-height: calc(100vh);
+  height: calc(100vh);
   width: 100%;
   overflow: hidden;
   padding: 104px 20px 20px 20px;
   box-sizing: border-box;
-  background-color: rgb(255, 239, 246);
+  background-color: rgb(255, 255, 255);
+  overflow: auto;
 }
 </style>

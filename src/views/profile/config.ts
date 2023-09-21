@@ -9,6 +9,10 @@ export const getTableConfig = (): ICrudTableProps => {
     showSetting: true,
     showExcelExport: true,
     name: 'test-column-setting',
+    options: {
+      height: 600,
+      border: true
+    },
     handle: {
       options: {
         width: 100,
@@ -40,6 +44,9 @@ export const getTableConfig = (): ICrudTableProps => {
         label: '多选',
         selectionChage: (info) => {
           console.log('拿到了选中的内容', info)
+        },
+        options: {
+          align: 'center'
         }
       },
       {
