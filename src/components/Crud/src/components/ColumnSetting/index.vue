@@ -17,7 +17,9 @@
               <h6><BeeIcon icon="s-column-export"></BeeIcon> <span>是否导出</span></h6>
             </el-divider>
             <el-checkbox-group v-model="columnExportList">
-              <el-checkbox size="small" :label="column.label" v-for="column in settings" :key="column.prop" />
+              <template v-for="column in settings" :key="column.prop">
+                <el-checkbox v-if="!(column.type ? ['selection'].includes(column.type) : column.prop === 'action')" size="small" :label="column.label" />
+              </template>
             </el-checkbox-group>
           </div>
         </el-descriptions-item>
