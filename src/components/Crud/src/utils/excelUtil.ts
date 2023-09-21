@@ -18,13 +18,21 @@ export const generateZhAndEnMap = (exportKeys: string[], tableColumns: IColumnSe
 /**
  * 格式化带字典的数据
  */
-const formatDictsData = (data: any, prop: string, columns: IColumnSettingColumn[]) => {
+const formatDictsData = (data: any, prop: string, columns: IColumnSettingColumn[], index: number, columnData: any) => {
+  console.log('你是啥', columnData)
+
   const currentColumn = columns.find((column) => column.prop === prop)
-  if (currentColumn && currentColumn.dicts) {
-    const dicts = currentColumn.dicts
-    const currentDict = dicts.find((item) => item.value === data)
-    if (currentDict) {
-      return currentDict.label
+  if (currentColumn) {
+    if (prop === 'index') {
+      return currentColumn.setIndex ? currentColumn.setIndex(index) : index
+    } else if (currentColumn.dicts) {
+      const dicts = currentColumn.dicts
+      const currentDict = dicts.find((item) => item.value === data)
+      if (currentDict) {
+        return currentDict.label
+      }
+    } else if (currentColumn.defaultValue) {
+      return !data ? (typeof currentColumn.defaultValue === 'function' ? currentColumn.defaultValue(columnData) : currentColumn.defaultValue) : currentColumn.defaultValue
     } else {
       return data
     }
@@ -49,7 +57,7 @@ export const formatExcelData = <T = any>(header?: string[], data?: T[], columns?
 
   const maps = generateZhAndEnMap(header, columns)
 
-  return data.map((column) => {
+  return data.map((column, index) => {
     return Object.keys(maps).map((key) => {
       const enTitle = maps[key]
       // @ts-ignore
@@ -57,7 +65,7 @@ export const formatExcelData = <T = any>(header?: string[], data?: T[], columns?
       if (['function', 'object'].includes(typeof rowData)) {
         return JSON.stringify(rowData)
       } else {
-        return formatDictsData(rowData, enTitle, columns)
+        return formatDictsData(rowData, enTitle, columns, index, column)
       }
     })
   })

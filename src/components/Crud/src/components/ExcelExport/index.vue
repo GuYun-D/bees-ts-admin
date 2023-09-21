@@ -56,7 +56,7 @@ const show = (tableColumns: IColumnSettingColumn[], selectColumnData: any[], cur
   exportSelectData.value = selectColumnData
   currentPageData.value = currentTableData
   tableColumns.forEach((column) => {
-    if (column.label && column.prop !== 'action') {
+    if (column.label && column.prop !== 'action' && column.type !== 'selection') {
       excelExportFields.value.push(column.label)
       if (column.excelExportVisible) {
         excelExportSelectFields.value.push(column.label)

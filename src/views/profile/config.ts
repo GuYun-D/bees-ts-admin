@@ -44,19 +44,20 @@ export const getTableConfig = (): ICrudTableProps => {
           console.log('拿到了选中的内容', info)
         }
       },
-      // {
-      //   prop: 'index',
-      //   label: '#',
-      //   type: 'index',
-      //   options: {
-      //     align: 'center'
-      //   }
-      // },
+      {
+        prop: 'index',
+        label: '#',
+        type: 'index',
+        // setIndex: (index) => (index + 'ha1'),
+        options: {
+          align: 'center'
+        }
+      },
       {
         prop: 'suoyin',
         label: '索引',
         width: 100,
-        defaultValue: () => '函数执行索引'
+        defaultValue: (rowData) => rowData.name
       },
       {
         prop: 'name',

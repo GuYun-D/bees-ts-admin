@@ -20,7 +20,7 @@
           v-if="column?.type === 'index' && column.columVisible"
           :label="column.label"
           type="index"
-          :index="column.setIndex"
+          :index="column.setIndex ? column.setIndex : ($event: number) => $event"
           :width="column.width"
           :fixed="column.fixed"
         ></el-table-column>

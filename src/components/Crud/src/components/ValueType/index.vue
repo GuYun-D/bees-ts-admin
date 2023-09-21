@@ -21,7 +21,7 @@ import type { ValueTypeName, ICrudTableColumnDicts, IValueTypeEvents } from '../
 const props = withDefaults(
   defineProps<{
     name?: ValueTypeName
-    dicts: ICrudTableColumnDicts[]
+    dicts?: ICrudTableColumnDicts[]
     value: any
     options?: any
     events?: any
