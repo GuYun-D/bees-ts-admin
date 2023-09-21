@@ -1,4 +1,4 @@
-import type { ButtonProps, TableColumnCtx, ImageEmits, AvatarEmits, tagProps, avatarProps, imageProps } from 'element-plus'
+import type { ButtonProps, TableColumnCtx, ImageEmits, AvatarEmits, tagProps, avatarProps, imageProps, TableProps } from 'element-plus'
 import type { IPageQuery } from './request'
 
 type HandleFixPosition = 'left' | 'right'
@@ -146,6 +146,9 @@ interface ICrudTableProps<T = any> {
 
   /* element-plus 表格事件 */
   events?: ITableEvents
+
+  /* table 配置 */
+  options?: Omit<Partial<TableProps<any>>, 'data'>
 }
 
 export type {

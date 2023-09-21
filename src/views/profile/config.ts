@@ -6,11 +6,9 @@ export const getTableConfig = (): ICrudTableProps => {
     requestApi(query) {
       return testCrudComponentsApi(query)
     },
-
     showSetting: true,
     showExcelExport: true,
     name: 'test-column-setting',
-
     handle: {
       options: {
         width: 100,

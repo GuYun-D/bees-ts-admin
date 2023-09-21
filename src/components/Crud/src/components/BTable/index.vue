@@ -1,7 +1,14 @@
 <template>
   <div class="bee-crud-table-container">
     <TableSettings :settings="tableSettings"></TableSettings>
-    <el-table @currentChange="tableEvents?.currentChange" :data="tableData" :highlight-current-row="isUseSelectColumnItem" style="width: 100%" @selection-change="handleMuiltChooseChange">
+    <el-table
+      v-bind="tableConfig?.options"
+      @currentChange="tableEvents?.currentChange"
+      :data="tableData"
+      :highlight-current-row="isUseSelectColumnItem"
+      style="width: 100%"
+      @selection-change="handleMuiltChooseChange"
+    >
       <template v-for="column in tableColumns" :key="column.prop">
         <!-- 多选 -->
         <el-table-column
