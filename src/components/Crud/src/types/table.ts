@@ -1,13 +1,14 @@
-import type { ButtonProps, TableColumnCtx, ImageEmits, AvatarEmits, tagProps, avatarProps, imageProps, TableProps } from 'element-plus'
+import type { ButtonProps, TableColumnCtx, ImageEmits, AvatarEmits, tagProps, avatarProps, imageProps, TableProps, SwitchEmits } from 'element-plus'
 import type { IPageQuery } from './request'
 
 type HandleFixPosition = 'left' | 'right'
 type HandleMulitChoose = (rowList?: any[]) => void
 type ColumnFixed = Boolean | 'right' | 'left'
-type ValueTypeName = 'tag' | 'img' | 'avatar' | 'img'
+type ValueTypeName = 'tag' | 'img' | 'avatar' | 'img' | 'switch'
 
-interface IValueTypeEvents extends ImageEmits, AvatarEmits {
+interface IValueTypeEvents extends Partial<ImageEmits>, Partial<AvatarEmits> {
   click?: (evt: MouseEvent) => boolean
+  change?: SwitchEmits['change']
 }
 
 type IValueTypeOptions = Partial<typeof avatarProps> & Partial<typeof imageProps> & Partial<typeof tagProps>

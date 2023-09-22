@@ -95,6 +95,23 @@ export const getTableConfig = (): ICrudTableProps => {
         }
       },
       {
+        prop: 'isDelete',
+        label: '是否激活',
+        valueType: {
+          name: 'switch',
+          options: {
+            // disabled: true,
+            // loading: true
+          },
+          events: {
+            change(value) {
+              console.log('来了老丢', value)
+              return false
+            }
+          }
+        }
+      },
+      {
         prop: 'avatar',
         label: '用户头像',
         valueType: 'avatar',
