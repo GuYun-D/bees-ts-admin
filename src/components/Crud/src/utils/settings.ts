@@ -35,12 +35,11 @@ export const setLocalColumnSettings = <T>(key: string, value: T) => {
 export const initColumnLocalSettings = (tableName: string): IChangeSetting | false => {
   // TODO: 这里也是要做generateDefaultSettings那些动作的
   const columnVisibleList: string[] = []
+  const columnExcelExportList: string[] = []
   const columnFixedInfo: IColumnFixedInfo = {}
   const columnSort: IColumnSort = {}
-  const columnExcelExportList: string[] = []
-
+  const columnWidthInfo: IColumnSort = {}
   const localTableSettings = getColumnLocalSettings(tableName)
-
   if (localTableSettings) {
     localTableSettings.forEach((column) => {
       if (column.label) {
@@ -55,13 +54,18 @@ export const initColumnLocalSettings = (tableName: string): IChangeSetting | fal
 
         columnSort[column.prop] = column.currentIndex
       }
+
+      if (column.width || column.width === 0) {
+        columnWidthInfo[column.prop] = column.width
+      }
     })
 
     return {
       columnFixedInfo,
       columnVisibleList,
       columnSort,
-      columnExcelExportList
+      columnExcelExportList,
+      columnWidthInfo
     }
   }
 
@@ -129,7 +133,7 @@ export const generateDefaultSettings = (columns: IColumnSettingColumn[], tableNa
 /**
  * 更新本地数据table设置数据
  */
-export const updateTableSettings = (tableName: string, cacheType: CacheType, config: UpdateLcalstorageSettings) => {
+export const updateTableSettings = (tableName: string, cacheType: CacheType, config: UpdateLcalstorageSettings, newWidth?: number) => {
   let localTableSettings = getColumnLocalSettings(tableName)
 
   if (localTableSettings) {
@@ -177,6 +181,16 @@ export const updateTableSettings = (tableName: string, cacheType: CacheType, con
 
         setLocalColumnSettings(tableName, localTableSettings)
         break
+
+      case 'width': {
+        const currentColumnConfig = localTableSettings.find((item) => item.prop === (config as string[])[0])
+        if (currentColumnConfig && newWidth) {
+          currentColumnConfig.width = newWidth
+        }
+
+        setLocalColumnSettings(tableName, localTableSettings)
+        break
+      }
     }
   }
 }

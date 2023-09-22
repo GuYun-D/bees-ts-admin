@@ -94,7 +94,7 @@ interface IColumnSettingColumn extends ICrudTableColumn {
   currentIndex: number
 }
 
-type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed' | 'currentIndex' | 'originIndex'>
+type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed' | 'currentIndex' | 'originIndex' | 'width'>
 
 interface ICrudTableHandle {
   options: {
@@ -110,6 +110,7 @@ interface ICrudTableHandle {
 
 interface ITableEvents {
   currentChange?: (currentRow: any, oldCurrentRow: any) => void
+  headerDragend?: (newWidth: number, oldWidth: number, column: any, event: MouseEvent) => void
 }
 
 interface ICrudTableProps<T = any> {
@@ -149,6 +150,9 @@ interface ICrudTableProps<T = any> {
 
   /* table 配置 */
   options?: Omit<Partial<TableProps<any>>, 'data'>
+
+  /* 是否开启标头拖拽记忆功能 */
+  draggingMemory?: boolean
 }
 
 export type {

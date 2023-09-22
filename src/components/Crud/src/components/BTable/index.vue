@@ -8,6 +8,7 @@
       :highlight-current-row="isUseSelectColumnItem"
       style="width: 100%"
       @selection-change="handleMuiltChooseChange"
+      @header-dragend="handleHeaderDragend"
     >
       <template v-for="column in tableColumns" :key="column.prop">
         <!-- 多选 -->
@@ -109,9 +110,14 @@ const handleMuiltChooseChange: HandleMulitChoose = (rowList: any) => {
   selectColumnList.value = rowList
 }
 
-const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: string[], columnFixedInfo?: IColumnFixedInfo, columnSort?: IColumnSort, exportExcelFields?: string[]) => {
-  console.log(tableColumnsConfig)
-
+const initTable = (
+  tableColumnsConfig: ICrudTableColumn[],
+  showColumnLabels?: string[],
+  columnFixedInfo?: IColumnFixedInfo,
+  columnSort?: IColumnSort,
+  exportExcelFields?: string[],
+  columnWidthInfo?: IColumnSort
+) => {
   const handles = tableConfig?.handle
   tableColumns.value = tableColumnsConfig.map((column, index) => {
     if (column.type && column.type === 'selection') {
@@ -130,8 +136,9 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
     }
 
     const currentIndex = column.prop && columnSort ? columnSort[column.prop] : 0
+    const width = column.prop && columnWidthInfo && tableConfig?.draggingMemory ? columnWidthInfo[column.prop] : column.width
 
-    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible, columVisible, fixed, originIndex: index, currentIndex }
+    const newColumn: IColumnSettingColumn = { ...column, excelExportVisible, columVisible, fixed, originIndex: index, currentIndex, width }
     return newColumn
   })
 
@@ -144,7 +151,8 @@ const initTable = (tableColumnsConfig: ICrudTableColumn[], showColumnLabels?: st
       columVisible: showColumnLabels ? showColumnLabels.includes('操作') : true,
       fixed: columnFixedInfo ? columnFixedInfo.action!.fixed : 'right',
       originIndex: tableColumns.value.length + 1,
-      currentIndex: columnSort ? columnSort.action : 0
+      currentIndex: columnSort ? columnSort.action : 0,
+      width: columnWidthInfo && tableConfig?.draggingMemory ? columnWidthInfo.action : undefined
     })
   }
 
@@ -169,7 +177,14 @@ if (tableConfig) {
     tableColumnName.value = name
     const initLocalTableConfig = initColumnLocalSettings(name)
     if (initLocalTableConfig) {
-      initTable(columns, initLocalTableConfig.columnVisibleList, initLocalTableConfig.columnFixedInfo, initLocalTableConfig.columnSort, initLocalTableConfig.columnExcelExportList)
+      initTable(
+        columns,
+        initLocalTableConfig.columnVisibleList,
+        initLocalTableConfig.columnFixedInfo,
+        initLocalTableConfig.columnSort,
+        initLocalTableConfig.columnExcelExportList,
+        initLocalTableConfig.columnWidthInfo
+      )
     } else {
       initTable(columns)
     }
@@ -178,6 +193,25 @@ if (tableConfig) {
   }
 
   initEvents(events)
+}
+
+/**
+ * 表头发生拖拽了
+ */
+const handleHeaderDragend = (newWidth: number, oldWidth: number, column: any, event: MouseEvent) => {
+  const { property } = column
+  if (tableConfig?.draggingMemory) {
+    for (const column of tableColumns.value) {
+      if (column.prop === property) {
+        column.width = newWidth
+        break
+      }
+    }
+
+    tableColumnName.value && updateTableSettings(tableColumnName.value, 'width', [property], newWidth)
+  }
+
+  tableEvents.headerDragend && tableEvents.headerDragend(newWidth, oldWidth, column, event)
 }
 
 onMounted(() => {

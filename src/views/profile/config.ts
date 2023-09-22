@@ -6,6 +6,7 @@ export const getTableConfig = (): ICrudTableProps => {
     requestApi(query) {
       return testCrudComponentsApi(query)
     },
+    draggingMemory: false,
     showSetting: true,
     showExcelExport: true,
     name: 'test-column-setting',
@@ -34,6 +35,9 @@ export const getTableConfig = (): ICrudTableProps => {
     events: {
       currentChange: (currentRow: any) => {
         console.log('单选的结果', currentRow)
+      },
+      headerDragend: (newWidth) => {
+        console.log('列发生了变化', newWidth)
       }
     },
 
