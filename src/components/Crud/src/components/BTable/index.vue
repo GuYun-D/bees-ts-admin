@@ -64,7 +64,14 @@
         <!-- 操作 -->
         <el-table-column :fixed="column.fixed" v-bind="tableHandleColumn?.options" v-if="column.prop === 'action' && column.columVisible" label="操作">
           <template #default="scope">
-            <el-button @click="button.click(scope.row)" v-bind="button.options" v-for="button in tableHandleColumn?.items" :key="button.name">{{ button.name }}</el-button>
+            <template v-for="button in tableHandleColumn?.items" :key="button.name">
+              <el-button
+                v-if="button.show && typeof button.show === 'function' ? button.show(scope.row) : true"
+                @click="button.click(scope.row)"
+                v-bind="button.dynamicLoad ? dynamicLoad(button.options ?? null, scope.row, button.dynamicLoad) : button.options"
+                >{{ button.name }}</el-button
+              >
+            </template>
           </template>
         </el-table-column>
       </template>
@@ -80,7 +87,7 @@ import bus from '../../utils/bus'
 import { TABLE_CONFIG_KEY } from '../../contants'
 import type { IColumnSort, IColumnFixedInfo, ITableEvents, ICrudTableColumn, IColumnSettingColumn, ICrudTableHandle, HandleMulitChoose, IColumnSettingItem } from '../../types'
 import TableSettings from '../TableSettings/index.vue'
-import { initColumnLocalSettings, generateDefaultSettings, updateTableSettings } from '../../utils'
+import { initColumnLocalSettings, generateDefaultSettings, updateTableSettings, dynamicLoad } from '../../utils'
 import ValueType from '../ValueType/index.vue'
 import ExcelExport from '../ExcelExport/index.vue'
 

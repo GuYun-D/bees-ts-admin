@@ -27,6 +27,15 @@ export const getTableConfig = (): ICrudTableProps => {
           },
           options: {
             type: 'danger'
+          },
+          dynamicLoad() {
+            return {
+              type: 'info',
+              class: 'delete-btn'
+            }
+          },
+          show(rowData) {
+            return rowData.role === 1
           }
         }
       ]
@@ -71,7 +80,10 @@ export const getTableConfig = (): ICrudTableProps => {
       {
         prop: 'name',
         label: '用户姓名',
-        width: 100
+        width: 100,
+        options: {
+          showOverflowTooltip: true
+        }
       },
       {
         prop: 'role',

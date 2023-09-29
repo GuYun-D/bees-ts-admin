@@ -6,6 +6,12 @@ type HandleMulitChoose = (rowList?: any[]) => void
 type ColumnFixed = Boolean | 'right' | 'left'
 type ValueTypeName = 'tag' | 'img' | 'avatar' | 'img' | 'switch'
 
+interface DynamicLoadOptions {
+  [key: string]: any
+}
+
+type DynamicLoadFn = (rowData: any, staticOptions: Partial<ButtonProps>) => DynamicLoadOptions
+
 interface IValueTypeEvents extends Partial<ImageEmits>, Partial<AvatarEmits> {
   click?: (evt: MouseEvent) => boolean
   change?: SwitchEmits['change']
@@ -43,7 +49,7 @@ interface ICrudHandleItems {
   options?: Partial<ButtonProps>
   /* 动态修改button的属性 */
   // TODO: 列数据的类型？
-  dynamicLoad?: (rowData: any) => void
+  dynamicLoad?: DynamicLoadFn
   /* 是否显示该按钮 */
   // TODO: 列数据的类型？
   show?: boolean | ((rowData: any) => boolean)
@@ -105,7 +111,6 @@ interface ICrudTableHandle {
 
   /* 列名字 */
   label?: string
-
   items: ICrudHandleItems[]
 }
 
@@ -169,5 +174,6 @@ export type {
   HandleMulitChoose,
   IColumnSettingItem,
   IValueTypeEvents,
-  IValueTypeOptions
+  IValueTypeOptions,
+  DynamicLoadFn
 }
