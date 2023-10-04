@@ -4,7 +4,7 @@ import type { IPageQuery } from './request'
 type HandleFixPosition = 'left' | 'right'
 type HandleMulitChoose = (rowList?: any[]) => void
 type ColumnFixed = Boolean | 'right' | 'left'
-type ValueTypeName = 'tag' | 'img' | 'avatar' | 'img' | 'switch'
+type ValueTypeName = 'tag' | 'img' | 'avatar' | 'switch'
 
 interface DynamicLoadOptions {
   [key: string]: any
