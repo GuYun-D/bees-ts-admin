@@ -14,7 +14,7 @@ export default class Request {
       // 全局拦截器
       (config) => {
         // @ts-ignore
-        config.headers.icode = 'A8B36A94068A333C'
+        config.headers.icode = '5072D7B5717F6D83'
         return config
       },
       (err) => {

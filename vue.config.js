@@ -11,6 +11,11 @@ module.exports = defineConfig({
   devServer: {
     port: 9527,
     open: true,
+    client: {
+      overlay: {
+        runtimeErrors: false
+      }
+    },
     proxy: {
       '/api': {
         target: 'https://api.imooc-admin.lgdsunday.club/',

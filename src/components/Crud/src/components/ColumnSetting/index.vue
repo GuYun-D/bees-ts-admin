@@ -30,10 +30,10 @@
               <li v-if="index === column.currentIndex">
                 <BeeIcon icon="s-move"></BeeIcon>
                 <span>{{ column.label }}</span>
-                <BeeIcon class="move" :color="columnFixedInfo[column.prop].fixed === 'left' ? '#409eff' : ''" @click="handleFixed(column.prop, 'left')" icon="s-left-move"></BeeIcon>
+                <BeeIcon class="move" :color="columnFixedInfo[column.prop].fixed === 'left' ? mainColor : ''" @click="handleFixed(column.prop, 'left')" icon="s-left-move"></BeeIcon>
                 <BeeIcon
                   class="move"
-                  :color="columnFixedInfo[column.prop] && columnFixedInfo[column.prop].fixed === 'right' ? '#409eff' : ''"
+                  :color="columnFixedInfo[column.prop] && columnFixedInfo[column.prop].fixed === 'right' ? mainColor : ''"
                   @click="handleFixed(column.prop, 'right')"
                   icon="s-right-move"
                 ></BeeIcon>
@@ -47,11 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { watch, ref, onMounted } from 'vue'
+import { watch, ref, onMounted, inject } from 'vue'
 import Sortable from 'sortablejs'
 import bus from '../../utils/bus'
 import { IColumnFixedInfo, IColumnSettingItem } from '../../types'
 import BeeIcon from '@/components/BeeIcon/index.vue'
+import { BEE_COMPONENTS_MAIN_COLOR, DEFAULT_MAIN_COLOR } from '../../contants'
 
 const props = withDefaults(
   defineProps<{
@@ -66,6 +67,7 @@ const columnVisibleList = ref<string[]>([])
 const columnExportList = ref<string[]>([])
 const columnFixedInfo = ref<IColumnFixedInfo>({})
 const sortableRef = ref<HTMLElement>()
+const mainColor = ref<string>(inject(BEE_COMPONENTS_MAIN_COLOR) || DEFAULT_MAIN_COLOR)
 
 const initSettings = (newSettings?: IColumnSettingItem[]) => {
   if (newSettings?.length) {
@@ -127,6 +129,10 @@ const handleFixed = (prop: string, direction: 'right' | 'left') => {
 
   bus.emit('change-column-fixed', columnFixedInfo.value)
 }
+
+bus.on('main-color-change', (newColor: string) => {
+  mainColor.value = newColor
+})
 </script>
 
 <style scoped lang="scss">

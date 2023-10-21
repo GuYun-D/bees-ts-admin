@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref, watch, provide, onMounted } from 'vue'
 import bus from './utils/bus'
-import { TABLE_CONFIG_KEY } from './contants'
+import { TABLE_CONFIG_KEY, BEE_COMPONENTS_MAIN_COLOR } from './contants'
 import BTable from './components/BTable/index.vue'
 import BeeForm from './components/BeeForm/index.vue'
 import type { ICrudTableProps, ICrudTabldeFieldMap, IPageQuery, ICrudSearchProps, ICommonOBJ } from './types'
@@ -33,8 +33,11 @@ const props = withDefaults(
   defineProps<{
     tableConfig: ICrudTableProps
     searchConfig?: ICrudSearchProps
+    mainColor?: string
   }>(),
-  {}
+  {
+    mainColor: ''
+  }
 )
 
 const tableData = ref<any>()
@@ -131,12 +134,24 @@ const initColumns = (tableConfig: ICrudTableProps) => {
   tableRequestApi = requestApi
   fetchTableData()
   provide(TABLE_CONFIG_KEY, tableConfig)
+  provide(BEE_COMPONENTS_MAIN_COLOR, props.mainColor)
 }
 
 watch(() => props.tableConfig, initColumns, {
   immediate: true,
   deep: true
 })
+
+watch(
+  () => props.mainColor,
+  (newColor) => {
+    bus.emit('main-color-change', newColor)
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 
 onMounted(() => {
   bus.on('get-request-config', (cb) => {

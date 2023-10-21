@@ -8,6 +8,7 @@ export type emitterEvents = {
   'move-column-position': IMoveColumnPosition
   'export-excel': void
   'get-request-config': (config: IRequestConfig) => void
+  'main-color-change': string
 }
 
 export default mitt<emitterEvents>()
