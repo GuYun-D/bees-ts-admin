@@ -10,7 +10,7 @@ interface DynamicLoadOptions {
   [key: string]: any
 }
 
-type DynamicLoadFn = (rowData: any, staticOptions: Partial<ButtonProps>) => DynamicLoadOptions
+type DynamicLoadFn<T = any> = (rowData: T, staticOptions: Partial<ButtonProps>) => DynamicLoadOptions
 
 interface IValueTypeEvents extends Partial<ImageEmits>, Partial<AvatarEmits> {
   click?: (evt: MouseEvent) => boolean
@@ -39,20 +39,17 @@ interface ICrudTabldeFieldMap {
   totalCount?: string
 }
 
-interface ICrudHandleItems {
+interface ICrudHandleItems<T = any> {
   /* 操作按钮名称 */
   name: string
   /* 点击操作之后执行的回调函数，回调参数是当前列的数据 */
-  // TODO: 列数据的类型？
-  click: (rowData: any) => void
+  click: (rowData: T) => void
   /* 要绑定到按钮上的属性 */
   options?: Partial<ButtonProps>
   /* 动态修改button的属性 */
-  // TODO: 列数据的类型？
-  dynamicLoad?: DynamicLoadFn
+  dynamicLoad?: DynamicLoadFn<T>
   /* 是否显示该按钮 */
-  // TODO: 列数据的类型？
-  show?: boolean | ((rowData: any) => boolean)
+  show?: boolean | ((rowData: T) => boolean)
 }
 
 interface ICrudTableColumnDicts {
@@ -61,7 +58,7 @@ interface ICrudTableColumnDicts {
   color?: string
 }
 
-interface ICrudTableColumn {
+interface ICrudTableColumn<T = any> {
   /* 列类型 */
   type?: 'index' | 'selection'
   /* 自定义索引, 当type = index时有效 */
@@ -79,8 +76,7 @@ interface ICrudTableColumn {
   /* element-plus 原生的props  */
   options?: Partial<TableColumnCtx<any>>
   /* 值不存在时显示的值 */
-  // TODO: 列数据的类型？
-  defaultValue?: number | string | boolean | null | undefined | symbol | bigint | ((rowData: any) => void)
+  defaultValue?: number | string | boolean | null | undefined | symbol | bigint | ((rowData: T) => void)
   /* 是否固定列 */
   fixed?: ColumnFixed
   /* value-type options */
@@ -103,7 +99,7 @@ interface IColumnSettingColumn extends ICrudTableColumn {
 
 type IColumnSettingItem = Pick<IColumnSettingColumn, 'label' | 'columVisible' | 'excelExportVisible' | 'type' | 'prop' | 'fixed' | 'currentIndex' | 'originIndex' | 'width'>
 
-interface ICrudTableHandle {
+interface ICrudTableHandle<T = any> {
   options: {
     width?: number
     fix?: HandleFixPosition
@@ -111,7 +107,7 @@ interface ICrudTableHandle {
 
   /* 列名字 */
   label?: string
-  items: ICrudHandleItems[]
+  items: ICrudHandleItems<T>[]
 }
 
 interface ITableEvents {
@@ -146,10 +142,10 @@ interface ICrudTableProps<T = any> {
   showSetting?: boolean
 
   /* 表格操作列设置 */
-  handle?: ICrudTableHandle
+  handle?: ICrudTableHandle<T>
 
   /* 表格列设置 */
-  columns: ICrudTableColumn[]
+  columns: ICrudTableColumn<T>[]
 
   /* element-plus 表格事件 */
   events?: ITableEvents
