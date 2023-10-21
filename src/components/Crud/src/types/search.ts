@@ -10,6 +10,7 @@ interface ISearch {
   component?: SeachComponents
   width?: number
   placeholder?: string
+  defaultValue?: any
 }
 
 type ICurdSearchItem = string | ISearch

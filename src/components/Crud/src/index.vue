@@ -1,6 +1,6 @@
 <template>
   <div class="bee-crud-container">
-    <BeeForm @seach="handleSeachTable" :search-config="searchConfig"></BeeForm>
+    <BeeForm v-if="searchConfig" @seach="handleSeachTable" :search-config="searchConfig"></BeeForm>
     <BTable :table-data="tableData"></BTable>
     <div class="bee-el__pagination__wrapper">
       <el-pagination
@@ -132,7 +132,7 @@ const initColumns = (tableConfig: ICrudTableProps) => {
   const { fieldsMap, requestApi } = tableConfig
   initFieldMap(fieldsMap)
   tableRequestApi = requestApi
-  fetchTableData()
+  !props.searchConfig && fetchTableData()
   provide(TABLE_CONFIG_KEY, tableConfig)
   provide(BEE_COMPONENTS_MAIN_COLOR, props.mainColor)
 }

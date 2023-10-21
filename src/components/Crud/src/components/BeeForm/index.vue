@@ -4,11 +4,11 @@
       <div class="search-label" v-if="item.label && item.placeholder">{{ item.label }}</div>
 
       <template v-if="item.component === 'input'">
-        <el-input style="width: 200px" v-model="formData[item.prop]" :placeholder="item.placeholder ? item.placeholder : item.label" />
+        <el-input clearable style="width: 200px" v-model="formData[item.prop]" :placeholder="item.placeholder ? item.placeholder : item.label" />
       </template>
 
       <template v-if="item.component === 'select'">
-        <el-select style="width: 200px" v-model="formData[item.prop]" :placeholder="item.placeholder ? item.placeholder : item.label">
+        <el-select clearable style="width: 200px" v-model="formData[item.prop]" :placeholder="item.placeholder ? item.placeholder : item.label">
           <el-option v-for="option in item.dicts" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
       </template>
@@ -46,11 +46,11 @@ const initFormField = (formItems: ICurdSearchItem[]) => {
   formItems.forEach((searchColumn) => {
     if (typeof searchColumn === 'object') {
       renderFormItem.value.push({ ...searchColumn, component: searchColumn.component || 'input' })
-      formData[searchColumn.prop] = ''
+      formData.value[searchColumn.prop] = searchColumn.defaultValue || ''
     } else if (typeof searchColumn === 'string') {
       const detailColumnInfo = getSearchConfigByProp(tableConfig!.columns, searchColumn)
       detailColumnInfo && renderFormItem.value.push(detailColumnInfo)
-      detailColumnInfo && (formData[detailColumnInfo.prop] = '')
+      detailColumnInfo && (formData.value[detailColumnInfo.prop] = '')
     }
   })
 }
@@ -68,6 +68,15 @@ const inintForm = (searchConfig?: ICrudSearchProps) => {
       console.log('样式', style)
       initFormField(items)
     }
+
+    emits(
+      'seach',
+      formData.value,
+      () => {
+        isLoading.value = false
+      },
+      false
+    )
   }
 }
 

@@ -166,7 +166,8 @@ export const getSearchConfig = (): ICrudSearchProps => {
   return [
     {
       label: '姓名',
-      prop: 'name'
+      prop: 'name',
+      defaultValue: '王大妈子'
     },
     'role',
     'avatar'
