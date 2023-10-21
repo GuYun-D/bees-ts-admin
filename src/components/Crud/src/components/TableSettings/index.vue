@@ -1,6 +1,7 @@
 <template>
   <div class="table-settings-container">
     <div class="right">
+      <el-button v-if="showRefresh" @click="handleRefreshTable" type="primary"><BeeIcon style="margin-right: 4px" icon="el-icon-refreshLeft"></BeeIcon>刷新</el-button>
       <el-button v-if="tableConfig?.showExcelExport" type="success" @click="handleExportExcel"> <BeeIcon color="#fff" icon="s-excel-export" style="margin-right: 5px"></BeeIcon> excel 导出</el-button>
       <el-popover v-if="tableConfig?.showSetting" placement="bottom" :width="600" trigger="click">
         <template #reference>
@@ -28,14 +29,20 @@ const tableConfig = inject(TABLE_CONFIG_KEY)
 withDefaults(
   defineProps<{
     settings?: IColumnSettingItem[]
+    showRefresh?: boolean
   }>(),
   {
-    settings: undefined
+    settings: undefined,
+    showRefresh: false
   }
 )
 
 const handleExportExcel = () => {
   bus.emit('export-excel')
+}
+
+const handleRefreshTable = () => {
+  bus.emit('table-refresh')
 }
 </script>
 

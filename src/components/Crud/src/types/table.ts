@@ -155,6 +155,9 @@ interface ICrudTableProps<T = any> {
 
   /* 是否开启标头拖拽记忆功能 */
   draggingMemory?: boolean
+
+  /* 显示刷新按钮 */
+  showRefresh?: boolean
 }
 
 export type {

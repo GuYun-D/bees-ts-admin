@@ -9,6 +9,7 @@ export type emitterEvents = {
   'export-excel': void
   'get-request-config': (config: IRequestConfig) => void
   'main-color-change': string
+  'table-refresh': void
 }
 
 export default mitt<emitterEvents>()

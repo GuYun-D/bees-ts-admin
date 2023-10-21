@@ -1,6 +1,6 @@
 <template>
   <div class="bee-crud-table-container">
-    <TableSettings :settings="tableSettings"></TableSettings>
+    <TableSettings :show-refresh="tableConfig?.showRefresh" :settings="tableSettings"></TableSettings>
     <el-table
       v-bind="tableConfig?.options"
       @currentChange="tableEvents?.currentChange"
@@ -99,6 +99,8 @@ const props = withDefaults(
 )
 
 const tableConfig = inject(TABLE_CONFIG_KEY)
+console.log('你好', tableConfig)
+
 const tableColumns = ref<IColumnSettingColumn[]>([])
 const tableSettings = ref<IColumnSettingItem[]>([])
 const tableHandleColumn = ref<ICrudTableHandle>()

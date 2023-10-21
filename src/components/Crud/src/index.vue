@@ -78,7 +78,7 @@ const fetchTableData = async () => {
 /**
  * 点击搜索
  */
-const handleSeachTable = async (queryInfo: ICommonOBJ, hiddenLoading: () => void, isReset: boolean) => {
+const handleSeachTable = async (queryInfo: ICommonOBJ, hiddenLoading: Function, isReset: boolean) => {
   isReset && (baseQueryInfo.value[tableSearchFieldsConfig.value.size!] = 20)
   isReset && (baseQueryInfo.value[tableSearchFieldsConfig.value.page!] = 1)
   try {
@@ -160,6 +160,16 @@ onMounted(() => {
       queryConfig: fm.getField(),
       totalTableCount: totalTableCount.value
     })
+  })
+
+  bus.on('table-refresh', () => {
+    handleSeachTable(
+      {},
+      () => {
+        // TODO: 显示table loading
+      },
+      false
+    )
   })
 })
 </script>
